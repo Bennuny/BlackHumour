@@ -13,6 +13,9 @@
 		B5DB97CB24860B600043D787 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DB97CA24860B600043D787 /* libglfw3.a */; };
 		B5DB97CF24860BA90043D787 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DB97CE24860BA90043D787 /* Cocoa.framework */; };
 		B5DB97D024860BB20043D787 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DB97CC24860B980043D787 /* IOKit.framework */; };
+		B5DB97D3248621400043D787 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5DB97D1248621400043D787 /* Game.cpp */; };
+		B5DB97D62486256D0043D787 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5DB97D42486256D0043D787 /* Shader.cpp */; };
+		B5DB97D924862D3D0043D787 /* Texture2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5DB97D724862D3D0043D787 /* Texture2D.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +38,12 @@
 		B5DB97CA24860B600043D787 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../../../../../../usr/local/lib/libglfw3.a; sourceTree = "<group>"; };
 		B5DB97CC24860B980043D787 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		B5DB97CE24860BA90043D787 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		B5DB97D1248621400043D787 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		B5DB97D2248621400043D787 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		B5DB97D42486256D0043D787 /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		B5DB97D52486256D0043D787 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		B5DB97D724862D3D0043D787 /* Texture2D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Texture2D.cpp; sourceTree = "<group>"; };
+		B5DB97D824862D3D0043D787 /* Texture2D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Texture2D.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +81,14 @@
 		B5DB960B248609060043D787 /* Breakout */ = {
 			isa = PBXGroup;
 			children = (
-				B5DB960C248609060043D787 /* main.cpp */,
 				B5DB961624860B310043D787 /* external */,
+				B5DB960C248609060043D787 /* main.cpp */,
+				B5DB97D1248621400043D787 /* Game.cpp */,
+				B5DB97D2248621400043D787 /* Game.hpp */,
+				B5DB97D42486256D0043D787 /* Shader.cpp */,
+				B5DB97D52486256D0043D787 /* Shader.hpp */,
+				B5DB97D724862D3D0043D787 /* Texture2D.cpp */,
+				B5DB97D824862D3D0043D787 /* Texture2D.hpp */,
 			);
 			path = Breakout;
 			sourceTree = "<group>";
@@ -162,8 +177,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5DB97D3248621400043D787 /* Game.cpp in Sources */,
 				B5DB960D248609060043D787 /* main.cpp in Sources */,
+				B5DB97D62486256D0043D787 /* Shader.cpp in Sources */,
 				B5DB97C924860B320043D787 /* glad.c in Sources */,
+				B5DB97D924862D3D0043D787 /* Texture2D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
