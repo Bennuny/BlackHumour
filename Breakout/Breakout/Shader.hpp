@@ -28,7 +28,7 @@ public:
     
     void Compile(const GLchar *vertexCode, const GLchar *fragmentCode, const GLchar *geometryCode = nullptr);
 
-    GLuint GetID() const {
+    GLuint GetID() {
         return _ID;
     }
     
