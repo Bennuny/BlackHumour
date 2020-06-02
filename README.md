@@ -1,2 +1,2 @@
-# BlackHumour
-Technology&amp;Think
+# LearnOpenGL
+Keep Curious
