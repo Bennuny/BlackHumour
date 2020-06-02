@@ -26,6 +26,13 @@ public:
         return _ID;
     }
     
+    void SetInternalFormat(GLuint value) {
+        _internal_format = value;
+    }
+    void SetImageFormat(GLuint value) {
+        _image_format = value;
+    }
+    
 private:
     GLuint  _ID;
     
