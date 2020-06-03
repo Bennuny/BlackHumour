@@ -9,8 +9,14 @@
 #ifndef Game_hpp
 #define Game_hpp
 
+#include "Sprite2D.hpp"
+
+#include "Renderer.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <vector>
 
 enum GameState {
     GAME_ACTIVE,
@@ -46,9 +52,13 @@ public:
 
 private:
     GameState       _state;
+    
+    std::vector<Sprite2D>   _sprites;
   
     GLuint          _windowWidth;
     GLuint          _windowHeight;
+    
+    Renderer                *_pQuadRenderer;
 };
 
 

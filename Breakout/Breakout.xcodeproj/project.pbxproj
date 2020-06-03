@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5825E248793E200E709E6 /* Sprite2D.cpp */; };
 		B5DB960D248609060043D787 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5DB960C248609060043D787 /* main.cpp */; };
 		B5DB9615248609720043D787 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DB9614248609720043D787 /* OpenGL.framework */; };
 		B5DB97C924860B320043D787 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DB97C724860B320043D787 /* glad.c */; };
@@ -33,6 +34,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B5B5825E248793E200E709E6 /* Sprite2D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite2D.cpp; sourceTree = "<group>"; };
+		B5B5825F248793E200E709E6 /* Sprite2D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sprite2D.hpp; sourceTree = "<group>"; };
+		B5B582612487961400E709E6 /* Shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shader; sourceTree = "<group>"; };
 		B5DB9609248609060043D787 /* Breakout */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Breakout; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5DB960C248609060043D787 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B5DB9614248609720043D787 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -48,7 +52,6 @@
 		B5DB97D824862D3D0043D787 /* Texture2D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Texture2D.hpp; sourceTree = "<group>"; };
 		B5DB97DA2486367F0043D787 /* ResourceManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
 		B5DB97DB2486367F0043D787 /* ResourceManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourceManager.hpp; sourceTree = "<group>"; };
-		B5DB97DF24863DC70043D787 /* Shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shader; sourceTree = "<group>"; };
 		B5DB97E024863DC70043D787 /* Texture */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Texture; sourceTree = "<group>"; };
 		B5DB97E1248656400043D787 /* Renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		B5DB97E2248656400043D787 /* Renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Renderer.hpp; sourceTree = "<group>"; };
@@ -102,6 +105,8 @@
 				B5DB97DB2486367F0043D787 /* ResourceManager.hpp */,
 				B5DB97E1248656400043D787 /* Renderer.cpp */,
 				B5DB97E2248656400043D787 /* Renderer.hpp */,
+				B5B5825E248793E200E709E6 /* Sprite2D.cpp */,
+				B5B5825F248793E200E709E6 /* Sprite2D.hpp */,
 			);
 			path = Breakout;
 			sourceTree = "<group>";
@@ -136,7 +141,7 @@
 		B5DB97DD24863D7E0043D787 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B5DB97DF24863DC70043D787 /* Shader */,
+				B5B582612487961400E709E6 /* Shader */,
 				B5DB97E024863DC70043D787 /* Texture */,
 			);
 			path = Resources;
@@ -201,6 +206,7 @@
 			files = (
 				B5DB97D3248621400043D787 /* Game.cpp in Sources */,
 				B5DB960D248609060043D787 /* main.cpp in Sources */,
+				B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */,
 				B5DB97D62486256D0043D787 /* Shader.cpp in Sources */,
 				B5DB97C924860B320043D787 /* glad.c in Sources */,
 				B5DB97D924862D3D0043D787 /* Texture2D.cpp in Sources */,

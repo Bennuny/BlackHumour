@@ -12,7 +12,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
 class Texture2D
 {
 public:
@@ -31,6 +30,14 @@ public:
     }
     void SetImageFormat(GLuint value) {
         _image_format = value;
+    }
+
+    GLuint GetWidth() const {
+        return _width;
+    }
+    
+    GLuint GetHeight() const {
+        return _height;
     }
     
 private:
