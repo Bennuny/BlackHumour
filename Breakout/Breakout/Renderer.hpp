@@ -27,7 +27,7 @@ private:
 
     GLuint  _quadVAO;
 
-    void initRenderData();
+    virtual void initRenderData();
 };
 
 #endif /* SpriteRenderer_hpp */
