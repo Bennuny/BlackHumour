@@ -11,6 +11,8 @@
 #include "Shader.hpp"
 #include "ResourceManager.hpp"
 
+const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px / s
+
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
     _windowHeight(height),
@@ -74,7 +76,21 @@ void Game::ProcessInput(GLfloat dt)
 
 void Game::Update(GLfloat dt)
 {
-    
+    if (Keys[GLFW_KEY_A] || Keys[GLFW_KEY_D]) {
+        glm::vec2 pos = _pPaddle->GetPosition();
+            
+        float movex = PADDLE_VELOCITY * dt;
+        if (Keys[GLFW_KEY_A]) {
+            pos.x -= movex;
+            pos.x = pos.x < 0 ? 0 : pos.x;
+        }
+        else {
+            pos.x += movex;
+            int max_x = _windowWidth - _pPaddle->GetWidth();
+            pos.x = pos.x > max_x ? max_x : pos.x;
+        }
+        _pPaddle->SetPosition(pos.x, pos.y);
+    }
 }
 
 void Game::Render()
