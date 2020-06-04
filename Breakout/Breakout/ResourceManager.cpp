@@ -33,6 +33,9 @@ Shader ResourceManager::GetShader(std::string name)
 
 Texture2D ResourceManager::GetTexture2D(std::string name)
 {
+    if (_textures.find(name) == _textures.end()) {
+        loadTexture2D(name, name);
+    }
     return _textures[name];
 }
 
@@ -59,7 +62,7 @@ std::string ResourceManager::GetFullPath(std::string file)
 void ResourceManager::loadShader(std::string name)
 {
     if (name == SHADER_MODEL_TEX_COLOR) {
-        Shader shader = loadShaderFromFile("model_tex_color.vert", "model_tex_color.frag");
+        Shader shader = loadShaderFromFile("Shader/model_tex_color.vert", "Shader/model_tex_color.frag");
         _shaders.insert(std::pair<std::string, Shader>(SHADER_MODEL_TEX_COLOR, shader));
     }
 }
@@ -92,10 +95,13 @@ Shader ResourceManager::loadShaderFromFile(const GLchar *vfile, const GLchar *ff
 Texture2D ResourceManager::LoadTextureFromFile(const GLchar *file)
 {
     std::string fullpath = GetFullPath(file);
-    
+
+//    stbi_set_flip_vertically_on_load(true);
+
     Texture2D texture;
     int width, height, nrComponents;
     unsigned char *data = stbi_load(fullpath.c_str(), &width, &height, &nrComponents, 0);
+        
     if (data)
     {
         GLenum format = GL_RED;
@@ -131,7 +137,7 @@ std::string ResourceManager::getStringFromFile(const GLchar *file)
     std::string sourceCode;
     
     try {
-        std::ifstream ifs(file);
+        std::ifstream ifs(fullpath);
         
         std::stringstream ss;
         ss << ifs.rdbuf();

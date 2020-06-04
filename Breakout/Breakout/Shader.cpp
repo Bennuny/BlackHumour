@@ -13,7 +13,7 @@ Shader::Shader():
 {
     
 }
-    
+
 Shader::~Shader()
 {
     
@@ -66,6 +66,8 @@ GLuint Shader::createShader(const GLchar *sourceCode, std::string type)
     }
     
     glad_glShaderSource(shader_o, 1, &sourceCode, nullptr);
+    
+    glad_glCompileShader(shader_o);
     
     checkCompileErrors(shader_o, "SHADER");
     
@@ -131,7 +133,7 @@ void Shader::checkCompileErrors(GLuint object, std::string type)
         glad_glGetShaderiv(object, GL_COMPILE_STATUS, &success);
         if (!success) {
             glad_glGetShaderInfoLog(object, 1024, NULL, infoLog);
-            std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+            std::cout << "| ERROR::SHADER: Compile-Time error: Type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
         }
     }
 }
