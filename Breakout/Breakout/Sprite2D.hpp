@@ -32,6 +32,10 @@ public:
         _position.y = y;
     }
     
+    const glm::vec2 GetPosition() const {
+        return _position;
+    }
+    
     void SetSize(GLfloat w, GLfloat h) {
         _size.x = w;
         _size.y = h;

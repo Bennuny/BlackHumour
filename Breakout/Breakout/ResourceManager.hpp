@@ -15,6 +15,8 @@
 #include <map>
 #include <iostream>
 
+#include <vector>
+
 class ResourceManager
 {
 public:
@@ -29,6 +31,8 @@ public:
     static void clear();
 
     static std::string GetFullPath(std::string file);
+    
+    static std::vector<std::vector<int>> GetLevelFromPath(std::string file);
     
 private:
 
@@ -45,6 +49,7 @@ private:
     static Texture2D LoadTextureFromFile(const GLchar *file);
     
     static std::string getStringFromFile(const GLchar *file);
+    
 };
 
 

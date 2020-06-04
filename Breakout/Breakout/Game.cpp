@@ -14,7 +14,8 @@
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
     _windowHeight(height),
-    _pQuadRenderer(nullptr)
+    _pQuadRenderer(nullptr),
+    _pGameLevel(nullptr)
 {
     _sprites.clear();
 }
@@ -30,7 +31,7 @@ void Game::Init()
 {
     glm::mat4 ortho = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), static_cast<GLfloat>(_windowHeight), 0.0f, -1.0f, 1.0f);
 //    glm::mat4 ortho = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), 0.0f, static_cast<GLfloat>(_windowHeight), -1.0f, 1.0f);
-    
+
     Shader shader = ResourceManager::GetShader(ResourceManager::SHADER_MODEL_TEX_COLOR);
     shader.Use();
     shader.SetMatrix4("projection", ortho);
@@ -38,9 +39,17 @@ void Game::Init()
 
     _pQuadRenderer = new Renderer(shader);
     
-    Sprite2D sp("Texture/awesomeface.png", _pQuadRenderer);
+    _pGameLevel = new GameLevel();
     
-    _sprites.push_back(sp);
+    _pGameLevel->Load("Level/one", _pQuadRenderer, _windowWidth, _windowHeight/2);
+    
+    CreateSprite("Texture/background.jpg");
+}
+
+void Game::CreateSprite(std::string file)
+{
+    Sprite2D bg(file, _pQuadRenderer);
+    _sprites.push_back(bg);
 }
 
 void Game::ProcessInput(GLfloat dt)
@@ -58,4 +67,6 @@ void Game::Render()
     for (Sprite2D sprite : _sprites) {
         sprite.Draw();
     }
+    
+    _pGameLevel->Draw();
 }

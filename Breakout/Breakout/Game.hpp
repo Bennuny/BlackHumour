@@ -13,6 +13,8 @@
 
 #include "Renderer.hpp"
 
+#include "GameLevel.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -51,14 +53,19 @@ public:
     GLboolean       Keys[1024];
 
 private:
-    GameState       _state;
+    void CreateSprite(std::string file);
     
+private:
+    GameState       _state;
+        
     std::vector<Sprite2D>   _sprites;
   
     GLuint          _windowWidth;
     GLuint          _windowHeight;
     
     Renderer                *_pQuadRenderer;
+    GameLevel               *_pGameLevel;
+
 };
 
 
