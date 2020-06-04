@@ -26,9 +26,6 @@ void Sprite2D::initWithFile(std::string file)
     
     _size.x = _texture.GetWidth();
     _size.y = _texture.GetHeight();
-    
-//    _position.y = 200.0f;
-//    _position.x = 200.0f;
 
     _color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }

@@ -14,8 +14,9 @@
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
     _windowHeight(height),
-    _currentLevel(4),
-    _pQuadRenderer(nullptr)
+    _currentLevel(3),
+    _pQuadRenderer(nullptr),
+    _pPaddle(nullptr)
 {
     _sprites.clear();
 }
@@ -53,12 +54,17 @@ void Game::Init()
     }
     
     CreateSprite("Texture/background.jpg");
+    _pPaddle = CreateSprite("Texture/paddle.png");
+    _pPaddle->SetSize(100.0f, 20.0f);
+    _pPaddle->SetPosition(_windowWidth/2 - _pPaddle->GetWidth()/2, _windowHeight-_pPaddle->GetHeight());
 }
 
-void Game::CreateSprite(std::string file)
+Sprite2D* Game::CreateSprite(std::string file)
 {
-    Sprite2D bg(file, _pQuadRenderer);
-    _sprites.push_back(bg);
+    Sprite2D *sprite = new Sprite2D(file, _pQuadRenderer);
+    _sprites.push_back(sprite);
+
+    return sprite;
 }
 
 void Game::ProcessInput(GLfloat dt)
@@ -73,8 +79,8 @@ void Game::Update(GLfloat dt)
 
 void Game::Render()
 {
-    for (Sprite2D sprite : _sprites) {
-        sprite.Draw();
+    for (Sprite2D* sprite : _sprites) {
+        sprite->Draw();
     }
     _vGameLevels[_currentLevel]->Draw();
 }

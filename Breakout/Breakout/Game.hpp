@@ -53,12 +53,13 @@ public:
     GLboolean       Keys[1024];
 
 private:
-    void CreateSprite(std::string file);
+    Sprite2D* CreateSprite(std::string file);
     
 private:
     GameState       _state;
         
-    std::vector<Sprite2D>   _sprites;
+    Sprite2D*                _pPaddle;
+    std::vector<Sprite2D*>   _sprites;
   
     GLuint          _windowWidth;
     GLuint          _windowHeight;
@@ -66,7 +67,6 @@ private:
     Renderer                    *_pQuadRenderer;
     std::vector<GameLevel* >    _vGameLevels;
     unsigned int                _currentLevel;
-
 };
 
 

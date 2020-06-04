@@ -41,6 +41,14 @@ public:
         _size.y = h;
     }
     
+    GLfloat GetWidth() const {
+        return _size.x;
+    }
+    
+    GLfloat GetHeight() const {
+        return _size.y;
+    }
+    
     void SetRotate(GLfloat rotate) {
         _rotate = rotate;
     }
