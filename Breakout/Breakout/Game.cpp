@@ -14,8 +14,8 @@
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
     _windowHeight(height),
-    _pQuadRenderer(nullptr),
-    _pGameLevel(nullptr)
+    _currentLevel(4),
+    _pQuadRenderer(nullptr)
 {
     _sprites.clear();
 }
@@ -24,6 +24,10 @@ Game::~Game()
 {
     if (_pQuadRenderer) {
         delete _pQuadRenderer;
+    }
+    
+    for (GameLevel *pLevel : _vGameLevels) {
+        delete pLevel;
     }
 }
 
@@ -38,10 +42,15 @@ void Game::Init()
     shader.SetInteger("image", 0);
 
     _pQuadRenderer = new Renderer(shader);
-    
-    _pGameLevel = new GameLevel();
-    
-    _pGameLevel->Load("Level/one", _pQuadRenderer, _windowWidth, _windowHeight/2);
+
+    for (int i = 0; i < 4; i++) {
+        GameLevel *pLevel = new GameLevel();
+
+        char repath[128] = "";
+        sprintf(repath, "Level/level_%d", i+1);
+        pLevel->Load(repath, _pQuadRenderer, _windowWidth, _windowHeight/2);
+        _vGameLevels.push_back(pLevel);
+    }
     
     CreateSprite("Texture/background.jpg");
 }
@@ -67,6 +76,5 @@ void Game::Render()
     for (Sprite2D sprite : _sprites) {
         sprite.Draw();
     }
-    
-    _pGameLevel->Draw();
+    _vGameLevels[_currentLevel]->Draw();
 }

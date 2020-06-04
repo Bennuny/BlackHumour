@@ -63,8 +63,9 @@ private:
     GLuint          _windowWidth;
     GLuint          _windowHeight;
     
-    Renderer                *_pQuadRenderer;
-    GameLevel               *_pGameLevel;
+    Renderer                    *_pQuadRenderer;
+    std::vector<GameLevel* >    _vGameLevels;
+    unsigned int                _currentLevel;
 
 };
 
