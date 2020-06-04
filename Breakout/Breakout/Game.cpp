@@ -62,9 +62,16 @@ void Game::Init()
     glm::vec2 paddlePos(_windowWidth/2 - _pPaddle->GetWidth()/2, _windowHeight-_pPaddle->GetHeight());
     _pPaddle->SetPosition(paddlePos);
     _pBall = CreateBallObject("Texture/awesomeface.png");
+    _pBall->SetMaxX(_windowWidth - _pBall->GetWidth());
+    ResetBall();
+}
+
+void Game::ResetBall()
+{
+    glm::vec2 paddlePos = _pPaddle->GetPosition();
     _pBall->SetRadius(BALL_RADIUS);
+    _pBall->SetStuck(GL_TRUE);
     _pBall->SetPosition(paddlePos.x + _pPaddle->GetWidth()/2 - _pBall->GetWidth()/2 , paddlePos.y - _pBall->GetHeight());
-    
 }
 
 Sprite2D* Game::CreateSprite(std::string file)
@@ -84,26 +91,36 @@ BallObject* Game::CreateBallObject(std::string file) {
 
 void Game::ProcessInput(GLfloat dt)
 {
-    
+    if (_state == GAME_ACTIVE) {
+        if (Keys[GLFW_KEY_A] || Keys[GLFW_KEY_D]) {
+            glm::vec2 pos = _pPaddle->GetPosition();
+                
+            float movex = PADDLE_VELOCITY * dt;
+            if (Keys[GLFW_KEY_A]) {
+                pos.x -= movex;
+                pos.x = pos.x < 0 ? 0 : pos.x;
+            }
+            else {
+                pos.x += movex;
+                int max_x = _windowWidth - _pPaddle->GetWidth();
+                pos.x = pos.x > max_x ? max_x : pos.x;
+            }
+            _pPaddle->SetPosition(pos.x, pos.y);
+            
+            if (_pBall->IsStuck()) {
+                ResetBall();
+            }
+        }
+        else if (Keys[GLFW_KEY_SPACE]) {
+            _pBall->SetStuck(GL_FALSE);
+        }
+    }
+
 }
 
 void Game::Update(GLfloat dt)
 {
-    if (Keys[GLFW_KEY_A] || Keys[GLFW_KEY_D]) {
-        glm::vec2 pos = _pPaddle->GetPosition();
-            
-        float movex = PADDLE_VELOCITY * dt;
-        if (Keys[GLFW_KEY_A]) {
-            pos.x -= movex;
-            pos.x = pos.x < 0 ? 0 : pos.x;
-        }
-        else {
-            pos.x += movex;
-            int max_x = _windowWidth - _pPaddle->GetWidth();
-            pos.x = pos.x > max_x ? max_x : pos.x;
-        }
-        _pPaddle->SetPosition(pos.x, pos.y);
-    }
+//    _pBall->
 }
 
 void Game::Render()

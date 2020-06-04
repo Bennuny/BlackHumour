@@ -9,7 +9,8 @@
 #include "BallObject.hpp"
 
 BallObject::BallObject(std::string file, Renderer *renderer):
-    GameObject(file, renderer)
+    GameObject(file, renderer),
+    _maxX(0)
 {
     
 }

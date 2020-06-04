@@ -35,11 +35,17 @@ public:
         _size.y = radius * 2;
     }
     
+    void SetMaxX(GLfloat maxX) {
+        _maxX = maxX;
+    }
+    
 private:
     
     GLboolean       _bStuck;
     
     GLfloat         _radius;
+    
+    GLfloat         _maxX;
 };
 
 #endif /* BallObject_hpp */

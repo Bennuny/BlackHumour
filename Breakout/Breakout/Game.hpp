@@ -58,6 +58,8 @@ private:
     
     BallObject* CreateBallObject(std::string file);
     
+    void ResetBall();
+    
 private:
     GameState       _state;
         
