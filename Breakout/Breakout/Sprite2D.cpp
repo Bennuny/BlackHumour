@@ -2,7 +2,7 @@
 //  Sprite2D.cpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/3.
+//  Created by Ben on 2020/6/3.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 

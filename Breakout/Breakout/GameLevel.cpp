@@ -2,7 +2,7 @@
 //  GameLevel.cpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/3.
+//  Created by Ben on 2020/6/3.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 
@@ -40,7 +40,7 @@ void GameLevel::Load(const GLchar *file, Renderer* pRenderer, GLuint levelWidth,
                 
                 _vBricks.push_back(object);
             }
-            else {
+            else if (vTileData[y][x] > 0) {
                 GameObject object("Texture/block.png", pRenderer);
                 object.SetPosition(unit_width * x, unit_height * y);
                 object.SetSize(unit_width, unit_height);

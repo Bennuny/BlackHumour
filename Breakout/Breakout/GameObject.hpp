@@ -2,7 +2,7 @@
 //  GameObject.hpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/3.
+//  Created by Ben on 2020/6/3.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 
@@ -36,9 +36,10 @@ public:
         _bDestroyed = value;
     }
     
-private:
-    
+protected:
     glm::vec2       _velocity;
+
+private:
     
     GLboolean       _bSolid;
     

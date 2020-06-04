@@ -2,7 +2,7 @@
 //  Sprite2D.hpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/3.
+//  Created by Ben on 2020/6/3.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 
@@ -30,6 +30,10 @@ public:
     void SetPosition(GLfloat x, GLfloat y) {
         _position.x = x;
         _position.y = y;
+    }
+    
+    void SetPosition(glm::vec2 pos) {
+        SetPosition(pos.x, pos.y);
     }
     
     const glm::vec2 GetPosition() const {
@@ -60,14 +64,13 @@ public:
         _color.a = a;
     }
     
-private:
+protected:
     glm::vec2   _position;
     glm::vec2   _size;
-    
     GLfloat     _rotate;
-
     glm::vec4   _color;
-    
+
+private:
     Texture2D   _texture;
     
     Renderer    *_pRenderer;

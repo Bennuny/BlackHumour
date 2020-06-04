@@ -2,7 +2,7 @@
 //  Shader.hpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/2.
+//  Created by Ben on 2020/6/2.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 

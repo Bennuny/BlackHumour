@@ -10,6 +10,7 @@
 #define Game_hpp
 
 #include "Sprite2D.hpp"
+#include "BallObject.hpp"
 
 #include "Renderer.hpp"
 
@@ -55,10 +56,13 @@ public:
 private:
     Sprite2D* CreateSprite(std::string file);
     
+    BallObject* CreateBallObject(std::string file);
+    
 private:
     GameState       _state;
         
     Sprite2D*                _pPaddle;
+    BallObject*              _pBall;
     std::vector<Sprite2D*>   _sprites;
   
     GLuint          _windowWidth;

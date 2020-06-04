@@ -11,7 +11,8 @@
 #include "Shader.hpp"
 #include "ResourceManager.hpp"
 
-const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px / s
+const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px/s
+const GLfloat   BALL_RADIUS = 12.5f;
 
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
@@ -58,7 +59,12 @@ void Game::Init()
     CreateSprite("Texture/background.jpg");
     _pPaddle = CreateSprite("Texture/paddle.png");
     _pPaddle->SetSize(100.0f, 20.0f);
-    _pPaddle->SetPosition(_windowWidth/2 - _pPaddle->GetWidth()/2, _windowHeight-_pPaddle->GetHeight());
+    glm::vec2 paddlePos(_windowWidth/2 - _pPaddle->GetWidth()/2, _windowHeight-_pPaddle->GetHeight());
+    _pPaddle->SetPosition(paddlePos);
+    _pBall = CreateBallObject("Texture/awesomeface.png");
+    _pBall->SetRadius(BALL_RADIUS);
+    _pBall->SetPosition(paddlePos.x + _pPaddle->GetWidth()/2 - _pBall->GetWidth()/2 , paddlePos.y - _pBall->GetHeight());
+    
 }
 
 Sprite2D* Game::CreateSprite(std::string file)
@@ -67,6 +73,13 @@ Sprite2D* Game::CreateSprite(std::string file)
     _sprites.push_back(sprite);
 
     return sprite;
+}
+
+BallObject* Game::CreateBallObject(std::string file) {
+    BallObject *ball = new BallObject(file, _pQuadRenderer);
+    _sprites.push_back(ball);
+
+    return ball;
 }
 
 void Game::ProcessInput(GLfloat dt)
@@ -95,8 +108,10 @@ void Game::Update(GLfloat dt)
 
 void Game::Render()
 {
-    for (Sprite2D* sprite : _sprites) {
-        sprite->Draw();
+    if (_state == GAME_ACTIVE) {
+        for (Sprite2D* sprite : _sprites) {
+            sprite->Draw();
+        }
+        _vGameLevels[_currentLevel]->Draw();
     }
-    _vGameLevels[_currentLevel]->Draw();
 }

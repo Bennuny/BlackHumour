@@ -10,6 +10,7 @@
 		B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5825E248793E200E709E6 /* Sprite2D.cpp */; };
 		B5B582662487D27500E709E6 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582642487D27500E709E6 /* GameObject.cpp */; };
 		B5B582692487D4E200E709E6 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582672487D4E200E709E6 /* GameLevel.cpp */; };
+		B5B5826D2488FCA800E709E6 /* BallObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5826B2488FCA800E709E6 /* BallObject.cpp */; };
 		B5DB960D248609060043D787 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5DB960C248609060043D787 /* main.cpp */; };
 		B5DB9615248609720043D787 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DB9614248609720043D787 /* OpenGL.framework */; };
 		B5DB97C924860B320043D787 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DB97C724860B320043D787 /* glad.c */; };
@@ -44,6 +45,8 @@
 		B5B582672487D4E200E709E6 /* GameLevel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameLevel.cpp; sourceTree = "<group>"; };
 		B5B582682487D4E200E709E6 /* GameLevel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameLevel.hpp; sourceTree = "<group>"; };
 		B5B5826A2488EAC100E709E6 /* Level */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Level; sourceTree = "<group>"; };
+		B5B5826B2488FCA800E709E6 /* BallObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BallObject.cpp; sourceTree = "<group>"; };
+		B5B5826C2488FCA800E709E6 /* BallObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BallObject.hpp; sourceTree = "<group>"; };
 		B5DB9609248609060043D787 /* Breakout */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Breakout; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5DB960C248609060043D787 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B5DB9614248609720043D787 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -118,6 +121,8 @@
 				B5B582652487D27500E709E6 /* GameObject.hpp */,
 				B5B582672487D4E200E709E6 /* GameLevel.cpp */,
 				B5B582682487D4E200E709E6 /* GameLevel.hpp */,
+				B5B5826B2488FCA800E709E6 /* BallObject.cpp */,
+				B5B5826C2488FCA800E709E6 /* BallObject.hpp */,
 			);
 			path = Breakout;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5B582692487D4E200E709E6 /* GameLevel.cpp in Sources */,
+				B5B5826D2488FCA800E709E6 /* BallObject.cpp in Sources */,
 				B5DB97D3248621400043D787 /* Game.cpp in Sources */,
 				B5DB960D248609060043D787 /* main.cpp in Sources */,
 				B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */,
