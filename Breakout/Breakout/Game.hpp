@@ -16,6 +16,8 @@
 
 #include "GameLevel.hpp"
 
+#include "Particle.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -27,6 +29,16 @@ enum GameState {
     GAME_WIN,
     GAME_FAIE,
 };
+
+enum Direction {
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT,
+    DIR_COUNT
+};
+
+typedef std::tuple<GLboolean, Direction, glm::vec2> Collision;
 
 class Game
 {
@@ -59,8 +71,22 @@ private:
     BallObject* CreateBallObject(std::string file);
     
     void ResetBall();
+    void ResetPlayer();
+    
+    void ResetLevel();
+
+    void GameOver();
     
     void SetLevel(unsigned int levelIdx);
+    
+    void DoCollision();
+    
+    // AABB (Axis-aligned Bounding Box) 轴对齐碰撞箱
+    GLboolean CheckCollisionAABB(GameObject &one, GameObject &two);
+    
+    Collision CheckCollisionAABBCycle(BallObject &ball, Node &brick);
+    
+    Direction VectorDirection(glm::vec2 traget);
     
 private:
     GameState       _state;
@@ -74,8 +100,12 @@ private:
     GLuint          _windowHeight;
     
     Renderer                    *_pQuadRenderer;
+    Renderer                    *_pParticleRenderer;
+    
     std::vector<GameLevel* >    _vGameLevels;
     unsigned int                _currentLevel;
+    
+    ParticleManager             *_pParticleManager;
 };
 
 

@@ -22,6 +22,7 @@ public:
     
     void DrawSprite(Texture2D &texture, glm::vec2 pos, glm::vec2 size, GLfloat rotate, glm::vec4 color);
 
+    void DrawParticle(Texture2D &texture, glm::vec2 pos, glm::vec4 color);
 private:
     Shader  _shader;
 

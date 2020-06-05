@@ -48,6 +48,21 @@ void Renderer::DrawSprite(Texture2D &texture, glm::vec2 pos, glm::vec2 size, GLf
     glad_glBindVertexArray(0);
 }
 
+void Renderer::DrawParticle(Texture2D &texture, glm::vec2 offset, glm::vec4 color)
+{
+    _shader.Use();
+    
+    _shader.SetVector2f("offset", offset);
+    _shader.SetVector4f("color", color);
+    
+    glad_glActiveTexture(GL_TEXTURE0);
+    texture.Bind();
+    
+    glad_glBindVertexArray(_quadVAO);
+    glad_glDrawArrays(GL_TRIANGLES, 0, 6);
+    glad_glBindVertexArray(0);
+}
+
 void Renderer::initRenderData()
 {
     GLuint VBO;

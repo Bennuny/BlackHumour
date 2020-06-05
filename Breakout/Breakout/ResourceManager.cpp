@@ -22,6 +22,8 @@ std::map<std::string, Texture2D>    ResourceManager::_textures;
 
 std::string ResourceManager::SHADER_MODEL_TEX_COLOR = "MODEL_TEX_COLOR";
 
+std::string ResourceManager::SHADER_PARTICLE = "PARTICLE";
+
 Shader ResourceManager::GetShader(std::string name)
 {
     if (_shaders.find(name) == _shaders.end()) {
@@ -88,6 +90,10 @@ void ResourceManager::loadShader(std::string name)
         Shader shader = loadShaderFromFile("Shader/model_tex_color.vert", "Shader/model_tex_color.frag");
         _shaders.insert(std::pair<std::string, Shader>(SHADER_MODEL_TEX_COLOR, shader));
     }
+    else if (name == SHADER_PARTICLE) {
+        Shader shader = loadShaderFromFile("Shader/particle.vert", "Shader/particle.frag");
+        _shaders.insert(std::pair<std::string, Shader>(SHADER_PARTICLE, shader));
+    }
 }
 
 Texture2D ResourceManager::loadTexture2D(std::string file, std::string name)
@@ -100,6 +106,8 @@ Texture2D ResourceManager::loadTexture2D(std::string file, std::string name)
 
 Shader ResourceManager::loadShaderFromFile(const GLchar *vfile, const GLchar *ffile, const GLchar *gfile)
 {
+    std::cout << "LOAD SHADER FROM FILE: " << vfile << std::endl;
+    
     Shader shader;
 
     std::string vert = getStringFromFile(vfile);

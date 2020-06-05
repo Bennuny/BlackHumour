@@ -35,8 +35,20 @@ public:
         _size.y = radius * 2;
     }
     
+    GLfloat GetRadius() const {
+        return _radius;
+    }
+    
     void SetMaxX(GLfloat maxX) {
         _maxX = maxX;
+    }
+    
+    void ReverseVelocityX() {
+        _velocity.x = -_velocity.x;
+    }
+    
+    void ReverseVelocityY() {
+        _velocity.y = -_velocity.y;
     }
     
     void Move(GLfloat dt);
