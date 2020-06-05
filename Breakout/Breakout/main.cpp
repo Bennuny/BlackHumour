@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
     // OpenGL configuration
     glad_glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    glad_glEnable(GL_CULL_FACE);
+//    glad_glEnable(GL_CULL_FACE);
     glad_glEnable(GL_BLEND);
     glad_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     

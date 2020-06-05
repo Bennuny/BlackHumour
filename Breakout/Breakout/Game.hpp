@@ -10,8 +10,11 @@
 #define Game_hpp
 
 #include "Sprite2D.hpp"
+#include "BallObject.hpp"
 
 #include "Renderer.hpp"
+
+#include "GameLevel.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -51,14 +54,28 @@ public:
     GLboolean       Keys[1024];
 
 private:
-    GameState       _state;
+    Sprite2D* CreateSprite(std::string file);
     
-    std::vector<Sprite2D>   _sprites;
+    BallObject* CreateBallObject(std::string file);
+    
+    void ResetBall();
+    
+    void SetLevel(unsigned int levelIdx);
+    
+private:
+    GameState       _state;
+        
+    Sprite2D*                _pBg;
+    Sprite2D*                _pPaddle;
+    BallObject*              _pBall;
+    std::vector<Sprite2D*>   _sprites;
   
     GLuint          _windowWidth;
     GLuint          _windowHeight;
     
-    Renderer                *_pQuadRenderer;
+    Renderer                    *_pQuadRenderer;
+    std::vector<GameLevel* >    _vGameLevels;
+    unsigned int                _currentLevel;
 };
 
 

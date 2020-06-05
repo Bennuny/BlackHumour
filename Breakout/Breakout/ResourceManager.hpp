@@ -2,7 +2,7 @@
 //  ResourceManager.hpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/2.
+//  Created by Ben on 2020/6/2.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 
@@ -14,6 +14,8 @@
 
 #include <map>
 #include <iostream>
+
+#include <vector>
 
 class ResourceManager
 {
@@ -30,6 +32,8 @@ public:
 
     static std::string GetFullPath(std::string file);
     
+    static std::vector<std::vector<int>> GetLevelFromPath(std::string file);
+    
 private:
 
     static  std::map<std::string, Shader>       _shaders;
@@ -45,6 +49,7 @@ private:
     static Texture2D LoadTextureFromFile(const GLchar *file);
     
     static std::string getStringFromFile(const GLchar *file);
+    
 };
 
 

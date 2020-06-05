@@ -2,7 +2,7 @@
 //  ResourceManager.cpp
 //  Breakout
 //
-//  Created by 付备 on 2020/6/2.
+//  Created by Ben on 2020/6/2.
 //  Copyright © 2020 Ben. All rights reserved.
 //
 
@@ -37,6 +37,29 @@ Texture2D ResourceManager::GetTexture2D(std::string name)
         loadTexture2D(name, name);
     }
     return _textures[name];
+}
+
+std::vector<std::vector<int>> ResourceManager::GetLevelFromPath(std::string file)
+{
+    std::string fullpath = ResourceManager::GetFullPath(file);
+    
+    std::string line;
+    int tileCode;
+    std::ifstream fstream(fullpath);
+    std::vector<std::vector<int>>   vTileData;
+    
+    if (fstream) {
+        while (std::getline(fstream, line)) {
+            std::istringstream  sstream(line);
+            std::vector<int>    row;
+            while (sstream >> tileCode) {
+                row.push_back(tileCode);
+            }
+            vTileData.push_back(row);
+        }
+    }
+    
+    return vTileData;
 }
 
 void ResourceManager::clear()
