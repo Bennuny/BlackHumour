@@ -103,6 +103,27 @@ BallObject* Game::CreateBallObject(std::string file) {
     return ball;
 }
 
+void Game::DoCollision()
+{
+    std::vector<GameObject>& bricks = _vGameLevels[_currentLevel]->Bricks();
+    for (GameObject &brick : bricks) {
+        if (!brick.IsDestroyed() && CheckCollisionAABB(brick, *_pBall)) {
+            if (!brick.IsSolid()) {
+                brick.SetDestroyed(GL_TRUE);
+            }
+        }
+    }
+}
+
+GLboolean Game::CheckCollisionAABB(GameObject &one, GameObject &two)
+{
+    bool collisionX = one.GetPosition().x + one.GetWidth() >= two.GetPosition().x && two.GetPosition().x + two.GetWidth() >= one.GetPosition().x;
+    
+    bool collisionY = one.GetPosition().y + one.GetHeight() >= two.GetPosition().y && two.GetPosition().y + two.GetHeight() >= one.GetPosition().y;
+    
+    return collisionX && collisionY;
+}
+
 void Game::ProcessInput(GLfloat dt)
 {
     if (_state == GAME_ACTIVE) {
@@ -134,6 +155,8 @@ void Game::ProcessInput(GLfloat dt)
 void Game::Update(GLfloat dt)
 {
     _pBall->Move(dt);
+    
+    DoCollision();
 }
 
 void Game::Render()

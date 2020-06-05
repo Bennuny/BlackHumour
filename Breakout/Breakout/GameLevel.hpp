@@ -27,6 +27,10 @@ public:
     virtual void Draw();
     
     GLboolean IsCompleted();
+    
+    std::vector<GameObject>& Bricks() {
+        return _vBricks;
+    }
 
 private:
     std::vector<GameObject>     _vBricks;

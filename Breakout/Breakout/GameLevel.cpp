@@ -67,7 +67,15 @@ void GameLevel::Load(const GLchar *file, Renderer* pRenderer, GLuint levelWidth,
 void GameLevel::Draw()
 {
     for (GameObject object : _vBricks) {
-        object.Draw();
+        
+        std::cout << "destroyed " << object.IsDestroyed() << std::endl;
+        
+        if (!object.IsDestroyed()) {
+            object.Draw();
+        }
+        else {
+            std::cout << "destroyed" << std::endl;
+        }
     }
 }
     

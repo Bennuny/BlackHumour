@@ -62,6 +62,11 @@ private:
     
     void SetLevel(unsigned int levelIdx);
     
+    void DoCollision();
+    
+    // AABB (Axis-aligned Bounding Box) 轴对齐碰撞箱
+    GLboolean CheckCollisionAABB(GameObject &one, GameObject &two);
+    
 private:
     GameState       _state;
         
