@@ -39,6 +39,8 @@ public:
         _maxX = maxX;
     }
     
+    void Move(GLfloat dt);
+    
 private:
     
     GLboolean       _bStuck;

@@ -11,10 +11,6 @@
 #include "ResourceManager.hpp"
 
 Sprite2D::Sprite2D(std::string file, Renderer *renderer):
-    _position(0.0f),
-    _size(1.0f),
-    _rotate(0.0f),
-    _color(1.0f),
     _pRenderer(renderer)
 {
     initWithFile(file);
@@ -33,4 +29,6 @@ void Sprite2D::initWithFile(std::string file)
 void Sprite2D::Draw()
 {
     _pRenderer->DrawSprite(_texture, _position, _size, _rotate, _color);
+    
+    Node::Draw();
 }

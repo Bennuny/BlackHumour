@@ -13,22 +13,23 @@
 
 #include "Renderer.hpp"
 
+#include "Node.hpp"
+
 #include <vector>
 
-class GameLevel
+class GameLevel : public Node
 {
 public:
     GameLevel();
     
     void Load(const GLchar *file, Renderer* pRenderer, GLuint levelWidth, GLuint levelHeight);
     
-    void Draw();
+    virtual void Draw();
     
     GLboolean IsCompleted();
 
 private:
     std::vector<GameObject>     _vBricks;
-    
 };
 
 #endif /* GameLevel_hpp */

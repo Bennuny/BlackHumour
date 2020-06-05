@@ -26,3 +26,27 @@ void BallObject::Reset(glm::vec2 pos, glm::vec2 velocity)
     _velocity = velocity;
 }
 
+void BallObject::Move(GLfloat dt)
+{
+    if (_bStuck) {
+        return;
+    }
+
+    glm::vec2 offset = _velocity * dt;
+
+    _position += offset;
+
+    if (_position.x < 0.0f) {
+        _position.x = 0.0f;
+        _velocity.x = -_velocity.x;
+    }
+    else if (_position.x > _maxX) {
+        _position.x = _maxX;
+        _velocity.x = -_velocity.x;
+    }
+    
+    if (_position.y < 0.0f) {
+        _position.y = 0.0f;
+        _velocity.y = -_velocity.y;
+    }
+}

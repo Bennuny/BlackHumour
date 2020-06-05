@@ -60,9 +60,12 @@ private:
     
     void ResetBall();
     
+    void SetLevel(unsigned int levelIdx);
+    
 private:
     GameState       _state;
         
+    Sprite2D*                _pBg;
     Sprite2D*                _pPaddle;
     BallObject*              _pBall;
     std::vector<Sprite2D*>   _sprites;

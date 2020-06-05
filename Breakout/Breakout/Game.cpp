@@ -14,6 +14,8 @@
 const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px/s
 const GLfloat   BALL_RADIUS = 12.5f;
 
+const glm::vec2 INITIAL_BALL_VELOCITY(-100.0f, -350.0f);
+
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
     _windowHeight(height),
@@ -56,7 +58,7 @@ void Game::Init()
         _vGameLevels.push_back(pLevel);
     }
     
-    CreateSprite("Texture/background.jpg");
+    _pBg = CreateSprite("Texture/background.jpg");
     _pPaddle = CreateSprite("Texture/paddle.png");
     _pPaddle->SetSize(100.0f, 20.0f);
     glm::vec2 paddlePos(_windowWidth/2 - _pPaddle->GetWidth()/2, _windowHeight-_pPaddle->GetHeight());
@@ -64,6 +66,8 @@ void Game::Init()
     _pBall = CreateBallObject("Texture/awesomeface.png");
     _pBall->SetMaxX(_windowWidth - _pBall->GetWidth());
     ResetBall();
+    
+    SetLevel(0);
 }
 
 void Game::ResetBall()
@@ -71,7 +75,17 @@ void Game::ResetBall()
     glm::vec2 paddlePos = _pPaddle->GetPosition();
     _pBall->SetRadius(BALL_RADIUS);
     _pBall->SetStuck(GL_TRUE);
-    _pBall->SetPosition(paddlePos.x + _pPaddle->GetWidth()/2 - _pBall->GetWidth()/2 , paddlePos.y - _pBall->GetHeight());
+    _pBall->Reset(glm::vec2(paddlePos.x + _pPaddle->GetWidth()/2 - _pBall->GetWidth()/2 , paddlePos.y - _pBall->GetHeight()), INITIAL_BALL_VELOCITY);
+}
+
+void Game::SetLevel(unsigned int levelIdx)
+{
+    _currentLevel = levelIdx;
+    
+    GameLevel* currentLevel = _vGameLevels[_currentLevel];
+    
+    _pBg->ClearAllChildren();
+    _pBg->AddChild(currentLevel);
 }
 
 Sprite2D* Game::CreateSprite(std::string file)
@@ -115,20 +129,19 @@ void Game::ProcessInput(GLfloat dt)
             _pBall->SetStuck(GL_FALSE);
         }
     }
-
 }
 
 void Game::Update(GLfloat dt)
 {
-//    _pBall->
+    _pBall->Move(dt);
 }
 
 void Game::Render()
 {
     if (_state == GAME_ACTIVE) {
+//        _vGameLevels[_currentLevel]->Draw();
         for (Sprite2D* sprite : _sprites) {
             sprite->Draw();
         }
-        _vGameLevels[_currentLevel]->Draw();
     }
 }
