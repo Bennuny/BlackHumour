@@ -35,6 +35,10 @@ public:
         _size.y = radius * 2;
     }
     
+    GLfloat GetRadius() const {
+        return _radius;
+    }
+    
     void SetMaxX(GLfloat maxX) {
         _maxX = maxX;
     }

@@ -67,6 +67,8 @@ private:
     // AABB (Axis-aligned Bounding Box) 轴对齐碰撞箱
     GLboolean CheckCollisionAABB(GameObject &one, GameObject &two);
     
+    GLboolean CheckCollisionAABBCycle(BallObject &ball, GameObject &one);
+    
 private:
     GameState       _state;
         

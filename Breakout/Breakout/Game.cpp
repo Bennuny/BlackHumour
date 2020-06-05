@@ -107,7 +107,9 @@ void Game::DoCollision()
 {
     std::vector<GameObject>& bricks = _vGameLevels[_currentLevel]->Bricks();
     for (GameObject &brick : bricks) {
-        if (!brick.IsDestroyed() && CheckCollisionAABB(brick, *_pBall)) {
+        
+//        if (!brick.IsDestroyed() && CheckCollisionAABB(brick, *_pBall)) {
+        if (!brick.IsDestroyed() && CheckCollisionAABBCycle(*_pBall, brick)) {
             if (!brick.IsSolid()) {
                 brick.SetDestroyed(GL_TRUE);
             }
@@ -122,6 +124,26 @@ GLboolean Game::CheckCollisionAABB(GameObject &one, GameObject &two)
     bool collisionY = one.GetPosition().y + one.GetHeight() >= two.GetPosition().y && two.GetPosition().y + two.GetHeight() >= one.GetPosition().y;
     
     return collisionX && collisionY;
+}
+
+GLboolean Game::CheckCollisionAABBCycle(BallObject &ball, GameObject &brick)
+{
+    glm::vec2 center(ball.GetPosition().x + ball.GetRadius(), ball.GetPosition().y + ball.GetRadius());
+    
+    glm::vec2 aabb_half_extents(brick.GetWidth()/2, brick.GetHeight()/2);
+    glm::vec2 aabb_center(brick.GetPosition().x + aabb_half_extents.x, brick.GetPosition().y + aabb_half_extents.y);
+    
+    glm::vec2 difference = center - aabb_center;
+
+    glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
+    
+    glm::vec2 closest = aabb_center + clamped;
+
+    difference = closest - center;
+    
+    GLfloat length = glm::length(difference);
+    
+    return length <= ball.GetRadius();
 }
 
 void Game::ProcessInput(GLfloat dt)
