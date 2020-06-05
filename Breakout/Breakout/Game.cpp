@@ -64,7 +64,6 @@ void Game::Init()
     glm::vec2 paddlePos(_windowWidth/2 - _pPaddle->GetWidth()/2, _windowHeight-_pPaddle->GetHeight());
     _pPaddle->SetPosition(paddlePos);
     _pBall = CreateBallObject("Texture/awesomeface.png");
-    _pBall->SetMaxX(_windowWidth - _pBall->GetWidth());
     ResetBall();
     
     SetLevel(0);
@@ -76,6 +75,7 @@ void Game::ResetBall()
     _pBall->SetRadius(BALL_RADIUS);
     _pBall->SetStuck(GL_TRUE);
     _pBall->Reset(glm::vec2(paddlePos.x + _pPaddle->GetWidth()/2 - _pBall->GetWidth()/2 , paddlePos.y - _pBall->GetHeight()), INITIAL_BALL_VELOCITY);
+    _pBall->SetMaxX(_windowWidth - _pBall->GetWidth());
 }
 
 void Game::SetLevel(unsigned int levelIdx)
