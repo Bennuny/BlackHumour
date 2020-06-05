@@ -28,6 +28,16 @@ enum GameState {
     GAME_FAIE,
 };
 
+enum Direction {
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT,
+    DIR_COUNT
+};
+
+typedef std::tuple<GLboolean, Direction, glm::vec2> Collision;
+
 class Game
 {
 public:
@@ -59,6 +69,11 @@ private:
     BallObject* CreateBallObject(std::string file);
     
     void ResetBall();
+    void ResetPlayer();
+    
+    void ResetLevel();
+
+    void GameOver();
     
     void SetLevel(unsigned int levelIdx);
     
@@ -67,7 +82,9 @@ private:
     // AABB (Axis-aligned Bounding Box) 轴对齐碰撞箱
     GLboolean CheckCollisionAABB(GameObject &one, GameObject &two);
     
-    GLboolean CheckCollisionAABBCycle(BallObject &ball, GameObject &one);
+    Collision CheckCollisionAABBCycle(BallObject &ball, Node &brick);
+    
+    Direction VectorDirection(glm::vec2 traget);
     
 private:
     GameState       _state;

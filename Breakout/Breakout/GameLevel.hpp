@@ -31,6 +31,8 @@ public:
     std::vector<GameObject>& Bricks() {
         return _vBricks;
     }
+    
+    void Reset();
 
 private:
     std::vector<GameObject>     _vBricks;

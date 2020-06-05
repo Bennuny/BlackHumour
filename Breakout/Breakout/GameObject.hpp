@@ -35,7 +35,7 @@ public:
     void SetDestroyed(GLboolean value) {
         _bDestroyed = value;
     }
-    
+
 protected:
     glm::vec2       _velocity;
 
