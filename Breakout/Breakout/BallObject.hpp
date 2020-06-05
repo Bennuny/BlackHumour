@@ -50,14 +50,6 @@ public:
     void ReverseVelocityY() {
         _velocity.y = -_velocity.y;
     }
-
-    glm::vec2 GetVelocity() const {
-        return _velocity;
-    }
-    
-    void SetVelocity(glm::vec2 vel) {
-        _velocity = vel;
-    }
     
     void Move(GLfloat dt);
     

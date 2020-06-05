@@ -16,6 +16,8 @@
 
 #include "GameLevel.hpp"
 
+#include "Particle.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -98,8 +100,12 @@ private:
     GLuint          _windowHeight;
     
     Renderer                    *_pQuadRenderer;
+    Renderer                    *_pParticleRenderer;
+    
     std::vector<GameLevel* >    _vGameLevels;
     unsigned int                _currentLevel;
+    
+    ParticleManager             *_pParticleManager;
 };
 
 

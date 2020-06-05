@@ -23,6 +23,8 @@ public:
     // 位置-纹理-颜色
     static std::string SHADER_MODEL_TEX_COLOR;
     
+    static std::string SHADER_PARTICLE;
+    
 public:
     static Shader GetShader(std::string name);
     

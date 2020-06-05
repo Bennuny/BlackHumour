@@ -36,6 +36,14 @@ public:
         _bDestroyed = value;
     }
 
+    glm::vec2 GetVelocity() const {
+        return _velocity;
+    }
+    
+    void SetVelocity(glm::vec2 vel) {
+        _velocity = vel;
+    }
+    
 protected:
     glm::vec2       _velocity;
 

@@ -11,6 +11,8 @@
 #include "Shader.hpp"
 #include "ResourceManager.hpp"
 
+#define SAFE_DELETE(p) if(p) { delete p; }
+
 const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px/s
 const GLfloat   BALL_RADIUS = 12.5f;
 
@@ -21,6 +23,8 @@ Game::Game(GLuint width, GLuint height):
     _windowHeight(height),
     _currentLevel(3),
     _pQuadRenderer(nullptr),
+    _pParticleRenderer(nullptr),
+    _pParticleManager(nullptr),
     _pPaddle(nullptr)
 {
     _sprites.clear();
@@ -31,6 +35,11 @@ Game::~Game()
     if (_pQuadRenderer) {
         delete _pQuadRenderer;
     }
+    if (_pParticleRenderer) {
+        delete _pParticleRenderer;
+    }
+    
+    SAFE_DELETE(_pParticleManager);
     
     for (GameLevel *pLevel : _vGameLevels) {
         delete pLevel;
@@ -46,8 +55,16 @@ void Game::Init()
     shader.Use();
     shader.SetMatrix4("projection", ortho);
     shader.SetInteger("image", 0);
+    
+    Shader particleShader = ResourceManager::GetShader(ResourceManager::SHADER_PARTICLE);
+    particleShader.Use();
+    particleShader.SetMatrix4("projection", ortho);
+    particleShader.SetInteger("image", 0);
 
     _pQuadRenderer = new Renderer(shader);
+    _pParticleRenderer = new Renderer(particleShader);
+    
+    _pParticleManager = new ParticleManager(_pParticleRenderer, "Texture/particle.png", 500);
 
     for (int i = 0; i < 4; i++) {
         GameLevel *pLevel = new GameLevel();
@@ -65,6 +82,8 @@ void Game::Init()
     _pPaddle->SetPosition(paddlePos);
     _pBall = CreateBallObject("Texture/awesomeface.png");
     ResetBall();
+    
+    _pBall->AddChild(_pParticleManager);
     
     SetLevel(0);
 }
@@ -274,6 +293,8 @@ void Game::ProcessInput(GLfloat dt)
 void Game::Update(GLfloat dt)
 {
     _pBall->Move(dt);
+    
+    _pParticleManager->Update(dt, _pBall, 2, glm::vec2(_pBall->GetRadius() / 2));
     
     if (_pBall->GetPosition().y >= _windowHeight) {
         GameOver();
