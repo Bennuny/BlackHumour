@@ -19,8 +19,10 @@ PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height):
     _texture(),
     _width(width),
     _height(height),
-    _postProcessingShader()
+    _postProcessingShader(shader)
 {
+    Confuse = GL_TRUE;
+    
     glad_glGenFramebuffers(1, &MSFBO);
     glad_glGenFramebuffers(1, &FBO);
     glad_glGenRenderbuffers(1, &RBO);
