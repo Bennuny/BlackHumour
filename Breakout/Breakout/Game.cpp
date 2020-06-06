@@ -29,6 +29,8 @@ Game::Game(GLuint width, GLuint height):
     _pPaddle(nullptr)
 {
     _sprites.clear();
+    
+    _ShakeTime = 0.0f;
 }
 
 Game::~Game()
@@ -160,6 +162,10 @@ void Game::DoCollision()
 
             if (!brick.IsSolid()) {
                 brick.SetDestroyed(GL_TRUE);
+            }
+            else {
+                _pPostProcessor->Shake = GL_TRUE;
+                _ShakeTime = 0.5f;
             }
             
             Direction dir = std::get<1>(collision);
@@ -309,6 +315,13 @@ void Game::Update(GLfloat dt)
     }
     
     DoCollision();
+
+    if (_pPostProcessor->Shake) {
+        _ShakeTime -= dt;
+        if (_ShakeTime <= 0.0f) {
+            _pPostProcessor->Shake = GL_FALSE;
+        }
+    }
 }
 
 void Game::Render()

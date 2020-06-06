@@ -110,6 +110,8 @@ private:
     ParticleManager             *_pParticleManager;
     
     PostProcessor               *_pPostProcessor;
+    
+    GLfloat                     _ShakeTime;
 };
 
 
