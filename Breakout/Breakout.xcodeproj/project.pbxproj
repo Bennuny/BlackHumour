@@ -13,6 +13,7 @@
 		B5B5826D2488FCA800E709E6 /* BallObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5826B2488FCA800E709E6 /* BallObject.cpp */; };
 		B5B582742489E38700E709E6 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582722489E38700E709E6 /* Node.cpp */; };
 		B5B58277248A322E00E709E6 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B58275248A322D00E709E6 /* Particle.cpp */; };
+		B5B5827A248A51B200E709E6 /* PostProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B58278248A51B200E709E6 /* PostProcessor.cpp */; };
 		B5DB960D248609060043D787 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5DB960C248609060043D787 /* main.cpp */; };
 		B5DB9615248609720043D787 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DB9614248609720043D787 /* OpenGL.framework */; };
 		B5DB97C924860B320043D787 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DB97C724860B320043D787 /* glad.c */; };
@@ -53,6 +54,8 @@
 		B5B582722489E38700E709E6 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		B5B58275248A322D00E709E6 /* Particle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Particle.cpp; sourceTree = "<group>"; };
 		B5B58276248A322D00E709E6 /* Particle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Particle.hpp; sourceTree = "<group>"; };
+		B5B58278248A51B200E709E6 /* PostProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PostProcessor.cpp; sourceTree = "<group>"; };
+		B5B58279248A51B200E709E6 /* PostProcessor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PostProcessor.hpp; sourceTree = "<group>"; };
 		B5DB9609248609060043D787 /* Breakout */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Breakout; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5DB960C248609060043D787 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B5DB9614248609720043D787 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -123,6 +126,8 @@
 				B5B582712489E24900E709E6 /* Node.hpp */,
 				B5B58275248A322D00E709E6 /* Particle.cpp */,
 				B5B58276248A322D00E709E6 /* Particle.hpp */,
+				B5B58278248A51B200E709E6 /* PostProcessor.cpp */,
+				B5B58279248A51B200E709E6 /* PostProcessor.hpp */,
 				B5DB97E1248656400043D787 /* Renderer.cpp */,
 				B5DB97E2248656400043D787 /* Renderer.hpp */,
 				B5DB97DA2486367F0043D787 /* ResourceManager.cpp */,
@@ -241,6 +246,7 @@
 				B5DB97D62486256D0043D787 /* Shader.cpp in Sources */,
 				B5DB97C924860B320043D787 /* glad.c in Sources */,
 				B5DB97D924862D3D0043D787 /* Texture2D.cpp in Sources */,
+				B5B5827A248A51B200E709E6 /* PostProcessor.cpp in Sources */,
 				B5DB97DC2486367F0043D787 /* ResourceManager.cpp in Sources */,
 				B5DB97E3248656400043D787 /* Renderer.cpp in Sources */,
 				B5B582662487D27500E709E6 /* GameObject.cpp in Sources */,

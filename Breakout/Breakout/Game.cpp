@@ -25,6 +25,7 @@ Game::Game(GLuint width, GLuint height):
     _pQuadRenderer(nullptr),
     _pParticleRenderer(nullptr),
     _pParticleManager(nullptr),
+    _pPostProcessor(nullptr),
     _pPaddle(nullptr)
 {
     _sprites.clear();
@@ -40,6 +41,8 @@ Game::~Game()
     }
     
     SAFE_DELETE(_pParticleManager);
+    
+    SAFE_DELETE(_pPostProcessor);
     
     for (GameLevel *pLevel : _vGameLevels) {
         delete pLevel;
@@ -60,6 +63,10 @@ void Game::Init()
     particleShader.Use();
     particleShader.SetMatrix4("projection", ortho);
     particleShader.SetInteger("image", 0);
+    
+    Shader shaderPostprocess = ResourceManager::GetShader(ResourceManager::SHADER_POST_PROCESSING);
+    
+    _pPostProcessor = new PostProcessor(shaderPostprocess, _windowWidth, _windowHeight);
 
     _pQuadRenderer = new Renderer(shader);
     _pParticleRenderer = new Renderer(particleShader);
@@ -306,9 +313,14 @@ void Game::Update(GLfloat dt)
 
 void Game::Render()
 {
+    _pPostProcessor->BeginRender();
     if (_state == GAME_ACTIVE) {
         for (Sprite2D* sprite : _sprites) {
             sprite->Draw();
         }
     }
+
+    _pPostProcessor->EndRender();
+
+    _pPostProcessor->Render(glfwGetTime());
 }

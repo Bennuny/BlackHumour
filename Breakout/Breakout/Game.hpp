@@ -16,6 +16,8 @@
 
 #include "GameLevel.hpp"
 
+#include "PostProcessor.hpp"
+
 #include "Particle.hpp"
 
 #include <glad/glad.h>
@@ -106,6 +108,8 @@ private:
     unsigned int                _currentLevel;
     
     ParticleManager             *_pParticleManager;
+    
+    PostProcessor               *_pPostProcessor;
 };
 
 

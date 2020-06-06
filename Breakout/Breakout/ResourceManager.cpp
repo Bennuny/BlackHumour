@@ -24,6 +24,9 @@ std::string ResourceManager::SHADER_MODEL_TEX_COLOR = "MODEL_TEX_COLOR";
 
 std::string ResourceManager::SHADER_PARTICLE = "PARTICLE";
 
+std::string ResourceManager::SHADER_POST_PROCESSING = "POST_PROCESSING";
+
+
 Shader ResourceManager::GetShader(std::string name)
 {
     if (_shaders.find(name) == _shaders.end()) {
@@ -93,6 +96,10 @@ void ResourceManager::loadShader(std::string name)
     else if (name == SHADER_PARTICLE) {
         Shader shader = loadShaderFromFile("Shader/particle.vert", "Shader/particle.frag");
         _shaders.insert(std::pair<std::string, Shader>(SHADER_PARTICLE, shader));
+    }
+    else if (name == SHADER_POST_PROCESSING) {
+        Shader shader = loadShaderFromFile("Shader/post_processing.vert", "Shader/post_processing.frag");
+        _shaders.insert(std::pair<std::string, Shader>(SHADER_POST_PROCESSING, shader));
     }
 }
 

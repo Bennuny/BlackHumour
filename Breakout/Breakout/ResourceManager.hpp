@@ -25,6 +25,8 @@ public:
     
     static std::string SHADER_PARTICLE;
     
+    static std::string SHADER_POST_PROCESSING;
+    
 public:
     static Shader GetShader(std::string name);
     
