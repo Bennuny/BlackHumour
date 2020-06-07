@@ -11,7 +11,12 @@
 #include "Shader.hpp"
 #include "ResourceManager.hpp"
 
+#include <irrKlang/irrKlang.h>
+using namespace irrklang;
+
 #define SAFE_DELETE(p) if(p) { delete p; }
+
+ISoundEngine *SoundEngine = createIrrKlangDevice();
 
 const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px/s
 const GLfloat   BALL_RADIUS = 12.5f;
@@ -53,6 +58,8 @@ Game::~Game()
 
 void Game::Init()
 {
+    SoundEngine->play2D(ResourceManager::GetFullPath("Sound/breakout.ogg").c_str(), true);
+    
     glm::mat4 ortho = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), static_cast<GLfloat>(_windowHeight), 0.0f, -1.0f, 1.0f);
 //    glm::mat4 ortho = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), 0.0f, static_cast<GLfloat>(_windowHeight), -1.0f, 1.0f);
 
@@ -163,8 +170,12 @@ void Game::DoCollision()
             if (!brick.IsSolid()) {
                 brick.SetDestroyed(GL_TRUE);
                 SpawnPowerUps(brick);
+                
+                SoundEngine->play2D(ResourceManager::GetFullPath("Sound/bleep.wav").c_str());
             }
             else {
+                SoundEngine->play2D(ResourceManager::GetFullPath("Sound/solid.wav").c_str());
+                
                 _pPostProcessor->Shake = GL_TRUE;
                 _ShakeTime = 0.5f;
             }
@@ -203,6 +214,8 @@ void Game::DoCollision()
     if (!_pBall->IsStuck()) {
         Collision withPaddle = CheckCollisionAABBCycle(*_pBall, *_pPaddle);
         if (std::get<0>(withPaddle)) {
+            SoundEngine->play2D(ResourceManager::GetFullPath("Sound/bleep.wav").c_str());
+            
             GLfloat centerBoard = _pPaddle->GetPosition().x + _pPaddle->GetWidth() / 2;
             GLfloat distance = (_pBall->GetPosition().x + _pBall->GetRadius()) - centerBoard;
             GLfloat percentage = distance / (_pPaddle->GetWidth() / 2);
@@ -219,6 +232,7 @@ void Game::DoCollision()
             
             if (_pBall->isSticky()) {
                 _pBall->SetStuck(GL_TRUE);
+                _pBall->SetSticky(GL_FALSE);
             }
         }
     }
@@ -233,6 +247,8 @@ void Game::DoCollision()
 
                 powup.SetDestroyed(GL_TRUE);
                 powup.SetActiviated(GL_TRUE);
+                
+                SoundEngine->play2D(ResourceManager::GetFullPath("Sound/powerup.wav").c_str());
             }
         }
     }

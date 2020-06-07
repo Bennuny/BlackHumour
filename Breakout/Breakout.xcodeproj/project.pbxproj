@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B564168B248CCDF000636663 /* PowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5641689248CCDEF00636663 /* PowerUp.cpp */; };
+		B564168E248CF02500636663 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B564168D248CF02500636663 /* libirrklang.dylib */; };
+		B5641690248CF09700636663 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B564168F248CF09600636663 /* CoreAudio.framework */; };
 		B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5825E248793E200E709E6 /* Sprite2D.cpp */; };
 		B5B582662487D27500E709E6 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582642487D27500E709E6 /* GameObject.cpp */; };
 		B5B582692487D4E200E709E6 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582672487D4E200E709E6 /* GameLevel.cpp */; };
@@ -43,6 +45,9 @@
 /* Begin PBXFileReference section */
 		B5641689248CCDEF00636663 /* PowerUp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PowerUp.cpp; sourceTree = "<group>"; };
 		B564168A248CCDEF00636663 /* PowerUp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PowerUp.hpp; sourceTree = "<group>"; };
+		B564168C248CEFDC00636663 /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sound; sourceTree = "<group>"; };
+		B564168D248CF02500636663 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libirrklang.dylib; path = Breakout/external/lib/libirrklang.dylib; sourceTree = "<group>"; };
+		B564168F248CF09600636663 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		B5B5825E248793E200E709E6 /* Sprite2D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite2D.cpp; sourceTree = "<group>"; };
 		B5B5825F248793E200E709E6 /* Sprite2D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sprite2D.hpp; sourceTree = "<group>"; };
 		B5B582612487961400E709E6 /* Shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shader; sourceTree = "<group>"; };
@@ -84,8 +89,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5641690248CF09700636663 /* CoreAudio.framework in Frameworks */,
 				B5DB97D024860BB20043D787 /* IOKit.framework in Frameworks */,
 				B5DB97CF24860BA90043D787 /* Cocoa.framework in Frameworks */,
+				B564168E248CF02500636663 /* libirrklang.dylib in Frameworks */,
 				B5DB9615248609720043D787 /* OpenGL.framework in Frameworks */,
 				B5DB97CB24860B600043D787 /* libglfw3.a in Frameworks */,
 			);
@@ -150,6 +157,8 @@
 		B5DB9613248609720043D787 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B564168F248CF09600636663 /* CoreAudio.framework */,
+				B564168D248CF02500636663 /* libirrklang.dylib */,
 				B5DB97CE24860BA90043D787 /* Cocoa.framework */,
 				B5DB97CC24860B980043D787 /* IOKit.framework */,
 				B5DB97CA24860B600043D787 /* libglfw3.a */,
@@ -177,6 +186,7 @@
 		B5DB97DD24863D7E0043D787 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B564168C248CEFDC00636663 /* Sound */,
 				B5B5826A2488EAC100E709E6 /* Level */,
 				B5B582612487961400E709E6 /* Shader */,
 				B5DB97E024863DC70043D787 /* Texture */,
@@ -379,7 +389,10 @@
 					/usr/local/include,
 					"\"$(SRCROOT)/Breakout/external/include\"",
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/lib/**",
+					"$(PROJECT_DIR)/Breakout/external/lib/**",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -392,7 +405,10 @@
 					/usr/local/include,
 					"\"$(SRCROOT)/Breakout/external/include\"",
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/lib/**",
+					"$(PROJECT_DIR)/Breakout/external/lib/**",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
