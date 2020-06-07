@@ -28,6 +28,22 @@ public:
         _bStuck = v;
     }
     
+    GLboolean isSticky() const {
+        return _bSticky;
+    }
+    
+    void SetSticky(GLboolean value) {
+        _bSticky = value;
+    }
+    
+    GLboolean PassThrough() const {
+        return _bPassThrough;
+    }
+    
+    void SetPassThrought(GLboolean value) {
+        _bPassThrough = value;
+    }
+    
     void SetRadius(GLfloat radius) {
         _radius = radius;
         
@@ -60,6 +76,10 @@ private:
     GLfloat         _radius;
     
     GLfloat         _maxX;
+    
+    GLboolean       _bPassThrough;
+    
+    GLboolean       _bSticky;
 };
 
 #endif /* BallObject_hpp */

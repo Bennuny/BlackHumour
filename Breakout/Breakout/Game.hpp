@@ -20,6 +20,8 @@
 
 #include "Particle.hpp"
 
+#include "PowerUp.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -84,11 +86,21 @@ private:
     void DoCollision();
     
     // AABB (Axis-aligned Bounding Box) 轴对齐碰撞箱
-    GLboolean CheckCollisionAABB(GameObject &one, GameObject &two);
+    GLboolean CheckCollisionAABB(Node &one, Node &two);
     
     Collision CheckCollisionAABBCycle(BallObject &ball, Node &brick);
     
     Direction VectorDirection(glm::vec2 traget);
+    
+    GLboolean ShouldSpawn(GLuint chance);
+    
+    void SpawnPowerUps(GameObject &block);
+    
+    void UpdatePowerUps(GLfloat dt);
+    
+    void ActivatePowUp(PowerUp &powerup);
+    
+    GLboolean IsOtherPowerUpActive(PowerUpType type);
     
 private:
     GameState       _state;
@@ -112,6 +124,8 @@ private:
     PostProcessor               *_pPostProcessor;
     
     GLfloat                     _ShakeTime;
+    
+    std::vector<PowerUp>        _powerUPs;
 };
 
 

@@ -22,6 +22,8 @@ PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height):
     _postProcessingShader(shader)
 {
     Confuse = GL_FALSE;
+    Chaos = GL_FALSE;
+    Shake = GL_FALSE;
     
     glad_glGenFramebuffers(1, &MSFBO);
     glad_glGenFramebuffers(1, &FBO);

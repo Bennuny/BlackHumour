@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B564168B248CCDF000636663 /* PowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5641689248CCDEF00636663 /* PowerUp.cpp */; };
 		B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5825E248793E200E709E6 /* Sprite2D.cpp */; };
 		B5B582662487D27500E709E6 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582642487D27500E709E6 /* GameObject.cpp */; };
 		B5B582692487D4E200E709E6 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582672487D4E200E709E6 /* GameLevel.cpp */; };
@@ -40,6 +41,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B5641689248CCDEF00636663 /* PowerUp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PowerUp.cpp; sourceTree = "<group>"; };
+		B564168A248CCDEF00636663 /* PowerUp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PowerUp.hpp; sourceTree = "<group>"; };
 		B5B5825E248793E200E709E6 /* Sprite2D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite2D.cpp; sourceTree = "<group>"; };
 		B5B5825F248793E200E709E6 /* Sprite2D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sprite2D.hpp; sourceTree = "<group>"; };
 		B5B582612487961400E709E6 /* Shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shader; sourceTree = "<group>"; };
@@ -138,6 +141,8 @@
 				B5B5825F248793E200E709E6 /* Sprite2D.hpp */,
 				B5DB97D724862D3D0043D787 /* Texture2D.cpp */,
 				B5DB97D824862D3D0043D787 /* Texture2D.hpp */,
+				B5641689248CCDEF00636663 /* PowerUp.cpp */,
+				B564168A248CCDEF00636663 /* PowerUp.hpp */,
 			);
 			path = Breakout;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				B5B582692487D4E200E709E6 /* GameLevel.cpp in Sources */,
 				B5B5826D2488FCA800E709E6 /* BallObject.cpp in Sources */,
 				B5DB97D3248621400043D787 /* Game.cpp in Sources */,
+				B564168B248CCDF000636663 /* PowerUp.cpp in Sources */,
 				B5B582742489E38700E709E6 /* Node.cpp in Sources */,
 				B5DB960D248609060043D787 /* main.cpp in Sources */,
 				B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */,

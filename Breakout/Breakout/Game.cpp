@@ -162,6 +162,7 @@ void Game::DoCollision()
 
             if (!brick.IsSolid()) {
                 brick.SetDestroyed(GL_TRUE);
+                SpawnPowerUps(brick);
             }
             else {
                 _pPostProcessor->Shake = GL_TRUE;
@@ -172,26 +173,28 @@ void Game::DoCollision()
             glm::vec2 diff_vector = std::get<2>(collision);
             glm::vec2 ballPos = _pBall->GetPosition();
             
-            if (dir == LEFT || dir == RIGHT) {
-                _pBall->ReverseVelocityX();
+            if (!(_pBall->PassThrough() && !brick.IsSolid())) {
+                if (dir == LEFT || dir == RIGHT) {
+                    _pBall->ReverseVelocityX();
 
-                GLfloat penetration = _pBall->GetRadius() - std::abs(diff_vector.x);
-                if (dir == LEFT) {
-                    _pBall->SetPosition(ballPos.x + penetration, ballPos.y);
+                    GLfloat penetration = _pBall->GetRadius() - std::abs(diff_vector.x);
+                    if (dir == LEFT) {
+                        _pBall->SetPosition(ballPos.x + penetration, ballPos.y);
+                    }
+                    else {
+                        _pBall->SetPosition(ballPos.x - penetration, ballPos.y);
+                    }
                 }
                 else {
-                    _pBall->SetPosition(ballPos.x - penetration, ballPos.y);
-                }
-            }
-            else {
-                _pBall->ReverseVelocityY();
+                    _pBall->ReverseVelocityY();
 
-                GLfloat penetration = _pBall->GetRadius() - std::abs(diff_vector.y);
-                if (dir == UP) {
-                    _pBall->SetPosition(ballPos.x, ballPos.y - penetration);
-                }
-                else {
-                    _pBall->SetPosition(ballPos.x, ballPos.y + penetration);
+                    GLfloat penetration = _pBall->GetRadius() - std::abs(diff_vector.y);
+                    if (dir == UP) {
+                        _pBall->SetPosition(ballPos.x, ballPos.y - penetration);
+                    }
+                    else {
+                        _pBall->SetPosition(ballPos.x, ballPos.y + penetration);
+                    }
                 }
             }
         }
@@ -213,11 +216,29 @@ void Game::DoCollision()
             vel = glm::normalize(vel) * glm::length(oldVelocity);
 
             _pBall->SetVelocity(vel);
+            
+            if (_pBall->isSticky()) {
+                _pBall->SetStuck(GL_TRUE);
+            }
+        }
+    }
+    
+    for (PowerUp &powup : _powerUPs) {
+        if (!powup.IsDestroyed()) {
+            if (powup.GetPosition().y >= _windowHeight) {
+                powup.SetDestroyed(GL_TRUE);
+            }
+            if (CheckCollisionAABB(*_pPaddle, powup)) {
+                ActivatePowUp(powup);
+
+                powup.SetDestroyed(GL_TRUE);
+                powup.SetActiviated(GL_TRUE);
+            }
         }
     }
 }
 
-GLboolean Game::CheckCollisionAABB(GameObject &one, GameObject &two)
+GLboolean Game::CheckCollisionAABB(Node &one, Node &two)
 {
     bool collisionX = one.GetPosition().x + one.GetWidth() >= two.GetPosition().x && two.GetPosition().x + two.GetWidth() >= one.GetPosition().x;
     
@@ -322,6 +343,8 @@ void Game::Update(GLfloat dt)
             _pPostProcessor->Shake = GL_FALSE;
         }
     }
+    
+    UpdatePowerUps(dt);
 }
 
 void Game::Render()
@@ -331,9 +354,118 @@ void Game::Render()
         for (Sprite2D* sprite : _sprites) {
             sprite->Draw();
         }
+        
+        for (GameObject &powerUP : _powerUPs) {
+            powerUP.Draw();
+        }
     }
 
     _pPostProcessor->EndRender();
 
     _pPostProcessor->Render(glfwGetTime());
+}
+
+GLboolean Game::ShouldSpawn(GLuint chance)
+{
+    GLuint random = rand() % chance;
+    return random == 0;
+}
+
+void Game::SpawnPowerUps(GameObject &block)
+{
+    if (ShouldSpawn(75)) {
+        _powerUPs.push_back(PowerUp(PT_SPEED, glm::vec3(0.5f, 0.5f, 1.0f), 0.0f, block.GetPosition(), "Texture/powerup_speed.png", _pQuadRenderer));
+    }
+    if (ShouldSpawn(75)) {
+        _powerUPs.push_back(PowerUp(PT_STICKY, glm::vec3(1.0f, 0.5f, 1.0f), 20.0f, block.GetPosition(), "Texture/powerup_sticky.png", _pQuadRenderer));
+    }
+    if (ShouldSpawn(75)) {
+        _powerUPs.push_back(PowerUp(PT_PASS_THROUGH, glm::vec3(0.5f, 1.0f, 0.5f), 10.0f, block.GetPosition(), "Texture/powerup_passthrough.png", _pQuadRenderer));
+    }
+    if (ShouldSpawn(75)) {
+        _powerUPs.push_back(PowerUp(PT_PAD_SIZE_INCREASE, glm::vec3(1.0f, 0.6f, 0.4f), 0.0f, block.GetPosition(), "Texture/powerup_increase.png", _pQuadRenderer));
+    }
+    if (ShouldSpawn(15)) {
+        _powerUPs.push_back(PowerUp(PT_CONFUSE, glm::vec3(1.0f, 0.3f, 0.3f), 15.0f, block.GetPosition(), "Texture/powerup_confuse.png", _pQuadRenderer));
+    }
+    if (ShouldSpawn(15)) {
+        _powerUPs.push_back(PowerUp(PT_CHAOS, glm::vec3(0.9f, 0.25f, 0.25f), 15.0f, block.GetPosition(), "Texture/powerup_chaos.png", _pQuadRenderer));
+    }
+}
+
+void Game::UpdatePowerUps(GLfloat dt)
+{
+    for (PowerUp &pow : _powerUPs) {
+        GLfloat py = pow.GetPosition().y;
+        py = py + pow.GetVelocity().y * dt;
+        
+        pow.SetPosition(pow.GetPosition().x, py);
+        
+        if (pow.GetActivated()) {
+            pow.SetDuration(pow.GetDuration() - dt);
+            
+            if (pow.GetDuration() <= 0.0f) {
+                pow.SetActiviated(GL_FALSE);
+                
+                PowerUpType put = pow.GetType();
+                if (put == PT_STICKY && !IsOtherPowerUpActive(PT_STICKY)) {
+                    _pBall->SetSticky(GL_FALSE);
+                    _pPaddle->SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+                }
+                else if (put == PT_PASS_THROUGH && !IsOtherPowerUpActive(PT_PASS_THROUGH)) {
+                    _pBall->SetPassThrought(GL_FALSE);
+                    _pPaddle->SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+                }
+                else if (put == PT_CONFUSE && !IsOtherPowerUpActive(PT_CONFUSE)) {
+                    _pPostProcessor->Confuse = GL_FALSE;
+                }
+                else if (put == PT_CHAOS && !IsOtherPowerUpActive(PT_CHAOS)) {
+                    _pPostProcessor->Chaos = GL_FALSE;
+                }
+            }
+        }
+    }
+    
+    _powerUPs.erase(std::remove_if(_powerUPs.begin(), _powerUPs.end(), [](const PowerUp &powerup) {
+        return powerup.IsDestroyed() && !powerup.GetActivated();
+    }), _powerUPs.end());
+}
+
+void Game::ActivatePowUp(PowerUp &powerup)
+{
+    if (powerup.GetType() == PT_SPEED) {
+        _pBall->SetVelocity(_pBall->GetVelocity() * 1.2f);
+    }
+    else if (powerup.GetType() == PT_STICKY) {
+        _pBall->SetSticky(GL_TRUE);
+        _pPaddle->SetColor(1.0f, 0.5f, 1.0f, 1.0f);
+    }
+    else if (powerup.GetType() == PT_PASS_THROUGH) {
+        _pBall->SetPassThrought(GL_TRUE);
+        _pBall->SetColor(1.0f, 0.5f, 0.6f, 1.0f);
+    }
+    else if (powerup.GetType() == PT_PAD_SIZE_INCREASE) {
+        _pPaddle->SetSize(_pPaddle->GetWidth() + 50, _pPaddle->GetHeight());
+    }
+    else if (powerup.GetType() == PT_CONFUSE) {
+        if (!_pPostProcessor->Chaos) {
+            _pPostProcessor->Confuse = GL_TRUE;
+        }
+    }
+    else if (powerup.GetType() == PT_CHAOS) {
+        if (!_pPostProcessor->Confuse) {
+            _pPostProcessor->Chaos = GL_TRUE;
+        }
+    }
+}
+
+GLboolean Game::IsOtherPowerUpActive(PowerUpType type)
+{
+    for (PowerUp &powerUp : _powerUPs)
+    {
+        if (powerUp.GetActivated() && powerUp.GetType() == type) {
+            GL_TRUE;
+        }
+    }
+    return GL_FALSE;
 }
