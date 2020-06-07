@@ -14,6 +14,8 @@
 #include <irrKlang/irrKlang.h>
 using namespace irrklang;
 
+#include <sstream>
+
 #define SAFE_DELETE(p) if(p) { delete p; }
 
 ISoundEngine *SoundEngine = createIrrKlangDevice();
@@ -36,6 +38,9 @@ Game::Game(GLuint width, GLuint height):
     _sprites.clear();
     
     _ShakeTime = 0.0f;
+    
+    _state = GAME_MENU;
+    _Lives = 3;
 }
 
 Game::~Game()
@@ -50,6 +55,8 @@ Game::~Game()
     SAFE_DELETE(_pParticleManager);
     
     SAFE_DELETE(_pPostProcessor);
+    
+    SAFE_DELETE(_pTextRender);
     
     for (GameLevel *pLevel : _vGameLevels) {
         delete pLevel;
@@ -73,9 +80,17 @@ void Game::Init()
     particleShader.SetMatrix4("projection", ortho);
     particleShader.SetInteger("image", 0);
     
+    Shader textShader = ResourceManager::GetShader(ResourceManager::SHADER_TEXT_RENDER);
+    textShader.Use();
+    textShader.SetMatrix4("projection", ortho);
+    textShader.SetInteger("image", 0);
+    
     Shader shaderPostprocess = ResourceManager::GetShader(ResourceManager::SHADER_POST_PROCESSING);
     
     _pPostProcessor = new PostProcessor(shaderPostprocess, _windowWidth, _windowHeight);
+    
+    _pTextRender = new TextRenderer(textShader, ortho);
+    _pTextRender->Load(ResourceManager::GetFullPath("Font/Arial Black.ttf"), 24);
 
     _pQuadRenderer = new Renderer(shader);
     _pParticleRenderer = new Renderer(particleShader);
@@ -122,6 +137,8 @@ void Game::ResetPlayer()
 void Game::ResetLevel()
 {
     _vGameLevels[_currentLevel]->Reset();
+    
+    _Lives = 3;
 }
 
 void Game::GameOver()
@@ -338,6 +355,36 @@ void Game::ProcessInput(GLfloat dt)
             _pBall->SetStuck(GL_FALSE);
         }
     }
+    else if (_state == GAME_MENU) {
+        if (Keys[GLFW_KEY_ENTER] && !KeysProcessed[GLFW_KEY_ENTER]) {
+            _state = GAME_ACTIVE;
+            KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+        }
+        
+        if (Keys[GLFW_KEY_W] && !KeysProcessed[GLFW_KEY_W]) {
+            _currentLevel = (_currentLevel + 1) % 4;
+            KeysProcessed[GLFW_KEY_W] = GL_TRUE;
+            SetLevel(_currentLevel);
+        }
+        
+        if (Keys[GLFW_KEY_S] && !KeysProcessed[GLFW_KEY_S]) {
+            KeysProcessed[GLFW_KEY_S] = GL_TRUE;
+            if (_currentLevel > 0) {
+                --_currentLevel;
+            }
+            else {
+                _currentLevel = 3;
+            }
+            SetLevel(_currentLevel);
+        }
+    }
+    else if (_state == GAME_WIN) {
+        if (Keys[GLFW_KEY_ENTER] && !KeysProcessed[GLFW_KEY_ENTER]) {
+            KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+            _pPostProcessor->Chaos = GL_FALSE;
+            _state = GAME_MENU;
+        }
+    }
 }
 
 void Game::Update(GLfloat dt)
@@ -347,8 +394,16 @@ void Game::Update(GLfloat dt)
     _pParticleManager->Update(dt, _pBall, 2, glm::vec2(_pBall->GetRadius() / 2));
     
     if (_pBall->GetPosition().y >= _windowHeight) {
-        GameOver();
-        return;
+//        GameOver();
+//        return;
+        
+        --_Lives;
+        if (_Lives == 0) {
+            GameOver();
+            _state = GAME_MENU;
+        }
+        ResetPlayer();
+        ResetBall();
     }
     
     DoCollision();
@@ -361,12 +416,18 @@ void Game::Update(GLfloat dt)
     }
     
     UpdatePowerUps(dt);
+    
+    if (_state == GAME_ACTIVE && _vGameLevels[_currentLevel]->IsCompleted()) {
+        GameOver();
+        _pPostProcessor->Chaos = GL_TRUE;
+        _state = GAME_WIN;
+    }
 }
 
 void Game::Render()
 {
     _pPostProcessor->BeginRender();
-    if (_state == GAME_ACTIVE) {
+    if (_state == GAME_ACTIVE || _state == GAME_MENU) {
         for (Sprite2D* sprite : _sprites) {
             sprite->Draw();
         }
@@ -374,6 +435,20 @@ void Game::Render()
         for (GameObject &powerUP : _powerUPs) {
             powerUP.Draw();
         }
+        
+        std::stringstream ss;
+        ss << _Lives;
+        _pTextRender->RenderText("Lives: " + ss.str(), 5.0f, 5.0f, 1.0f);
+    }
+    
+    if (_state == GAME_MENU) {
+        _pTextRender->RenderText("Press ENTER to start", 250.0f, _windowHeight/2, 1.0f);
+        _pTextRender->RenderText("Press W or S to select level", 245.0f, _windowHeight/2 + 20.0f, 0.75f);
+    }
+    
+    if (_state == GAME_WIN) {
+        _pTextRender->RenderText("You WON!!", 320.0f, _windowHeight/2 - 20.0, 1.0, glm::vec3(0.0f, 1.0f, 0.0f));
+        _pTextRender->RenderText("Press ENTER to retry or ESC to quit", 130.0f, _windowHeight/2, 1.0, glm::vec3(1.0f, 1.0f, 1.0));
     }
 
     _pPostProcessor->EndRender();

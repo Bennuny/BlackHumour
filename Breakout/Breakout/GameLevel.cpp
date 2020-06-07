@@ -82,5 +82,11 @@ void GameLevel::Reset()
     
 GLboolean GameLevel::IsCompleted()
 {
-    return GL_FALSE;
+    for (GameObject &brick : _vBricks) {
+        if (!brick.IsSolid() && !brick.IsDestroyed()) {
+            return GL_FALSE;
+        }
+    }
+    
+    return GL_TRUE;
 }

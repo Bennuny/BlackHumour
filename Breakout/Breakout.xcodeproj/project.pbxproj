@@ -10,6 +10,8 @@
 		B564168B248CCDF000636663 /* PowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5641689248CCDEF00636663 /* PowerUp.cpp */; };
 		B564168E248CF02500636663 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B564168D248CF02500636663 /* libirrklang.dylib */; };
 		B5641690248CF09700636663 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B564168F248CF09600636663 /* CoreAudio.framework */; };
+		B5641694248CF37400636663 /* TextRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5641692248CF37400636663 /* TextRenderer.cpp */; };
+		B5641696248D181000636663 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5641695248D181000636663 /* libfreetype.a */; };
 		B5B58260248793E200E709E6 /* Sprite2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5825E248793E200E709E6 /* Sprite2D.cpp */; };
 		B5B582662487D27500E709E6 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582642487D27500E709E6 /* GameObject.cpp */; };
 		B5B582692487D4E200E709E6 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B582672487D4E200E709E6 /* GameLevel.cpp */; };
@@ -48,6 +50,10 @@
 		B564168C248CEFDC00636663 /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sound; sourceTree = "<group>"; };
 		B564168D248CF02500636663 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libirrklang.dylib; path = Breakout/external/lib/libirrklang.dylib; sourceTree = "<group>"; };
 		B564168F248CF09600636663 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		B5641691248CF35800636663 /* Font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Font; sourceTree = "<group>"; };
+		B5641692248CF37400636663 /* TextRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderer.cpp; sourceTree = "<group>"; };
+		B5641693248CF37400636663 /* TextRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextRenderer.hpp; sourceTree = "<group>"; };
+		B5641695248D181000636663 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
 		B5B5825E248793E200E709E6 /* Sprite2D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite2D.cpp; sourceTree = "<group>"; };
 		B5B5825F248793E200E709E6 /* Sprite2D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sprite2D.hpp; sourceTree = "<group>"; };
 		B5B582612487961400E709E6 /* Shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shader; sourceTree = "<group>"; };
@@ -95,6 +101,7 @@
 				B564168E248CF02500636663 /* libirrklang.dylib in Frameworks */,
 				B5DB9615248609720043D787 /* OpenGL.framework in Frameworks */,
 				B5DB97CB24860B600043D787 /* libglfw3.a in Frameworks */,
+				B5641696248D181000636663 /* libfreetype.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,9 +129,9 @@
 		B5DB960B248609060043D787 /* Breakout */ = {
 			isa = PBXGroup;
 			children = (
-				B5DB961624860B310043D787 /* external */,
 				B5B5826B2488FCA800E709E6 /* BallObject.cpp */,
 				B5B5826C2488FCA800E709E6 /* BallObject.hpp */,
+				B5DB961624860B310043D787 /* external */,
 				B5DB97D1248621400043D787 /* Game.cpp */,
 				B5DB97D2248621400043D787 /* Game.hpp */,
 				B5B582672487D4E200E709E6 /* GameLevel.cpp */,
@@ -138,6 +145,8 @@
 				B5B58276248A322D00E709E6 /* Particle.hpp */,
 				B5B58278248A51B200E709E6 /* PostProcessor.cpp */,
 				B5B58279248A51B200E709E6 /* PostProcessor.hpp */,
+				B5641689248CCDEF00636663 /* PowerUp.cpp */,
+				B564168A248CCDEF00636663 /* PowerUp.hpp */,
 				B5DB97E1248656400043D787 /* Renderer.cpp */,
 				B5DB97E2248656400043D787 /* Renderer.hpp */,
 				B5DB97DA2486367F0043D787 /* ResourceManager.cpp */,
@@ -146,10 +155,10 @@
 				B5DB97D52486256D0043D787 /* Shader.hpp */,
 				B5B5825E248793E200E709E6 /* Sprite2D.cpp */,
 				B5B5825F248793E200E709E6 /* Sprite2D.hpp */,
+				B5641692248CF37400636663 /* TextRenderer.cpp */,
+				B5641693248CF37400636663 /* TextRenderer.hpp */,
 				B5DB97D724862D3D0043D787 /* Texture2D.cpp */,
 				B5DB97D824862D3D0043D787 /* Texture2D.hpp */,
-				B5641689248CCDEF00636663 /* PowerUp.cpp */,
-				B564168A248CCDEF00636663 /* PowerUp.hpp */,
 			);
 			path = Breakout;
 			sourceTree = "<group>";
@@ -157,6 +166,7 @@
 		B5DB9613248609720043D787 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5641695248D181000636663 /* libfreetype.a */,
 				B564168F248CF09600636663 /* CoreAudio.framework */,
 				B564168D248CF02500636663 /* libirrklang.dylib */,
 				B5DB97CE24860BA90043D787 /* Cocoa.framework */,
@@ -186,6 +196,7 @@
 		B5DB97DD24863D7E0043D787 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5641691248CF35800636663 /* Font */,
 				B564168C248CEFDC00636663 /* Sound */,
 				B5B5826A2488EAC100E709E6 /* Level */,
 				B5B582612487961400E709E6 /* Shader */,
@@ -264,6 +275,7 @@
 				B5DB97D924862D3D0043D787 /* Texture2D.cpp in Sources */,
 				B5B5827A248A51B200E709E6 /* PostProcessor.cpp in Sources */,
 				B5DB97DC2486367F0043D787 /* ResourceManager.cpp in Sources */,
+				B5641694248CF37400636663 /* TextRenderer.cpp in Sources */,
 				B5DB97E3248656400043D787 /* Renderer.cpp in Sources */,
 				B5B582662487D27500E709E6 /* GameObject.cpp in Sources */,
 			);
@@ -388,6 +400,7 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					"\"$(SRCROOT)/Breakout/external/include\"",
+					/usr/local/include/freetype2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/usr/local/lib/**",
@@ -404,6 +417,7 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					"\"$(SRCROOT)/Breakout/external/include\"",
+					/usr/local/include/freetype2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/usr/local/lib/**",
