@@ -12,6 +12,8 @@
 
 #include <iostream>
 
+#include "Game.hpp"
+
 // The Width of the screen
 const GLuint SCREEN_WIDTH = 800;
 // The height of the screen
@@ -21,6 +23,10 @@ const GLuint SCREEN_HEIGHT = 600;
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+
+Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 
 int main(int argc, char *argv[])
 {
@@ -57,9 +63,12 @@ int main(int argc, char *argv[])
 
     // OpenGL configuration
     glad_glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    glad_glEnable(GL_CULL_FACE);
+//    glad_glEnable(GL_CULL_FACE);
     glad_glEnable(GL_BLEND);
     glad_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    // Game
+    Breakout.Init();
 
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;
@@ -72,10 +81,16 @@ int main(int argc, char *argv[])
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         glfwPollEvents();
+        
+        Breakout.ProcessInput(deltaTime);
+        
+        Breakout.Update(deltaTime);
 
         // Render
         glad_glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glad_glClear(GL_COLOR_BUFFER_BIT);
+        
+        Breakout.Render();
 
         glfwSwapBuffers(window);
     }
@@ -89,6 +104,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     // When a user presses the escape key, we set the WindowShouldClose property to true, closing the application
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    
+    if (key >= 0 && key < 1024) {
+        if (action == GLFW_PRESS) {
+            Breakout.Keys[key] = GL_TRUE;
+        }
+        else if (action == GLFW_RELEASE) {
+            Breakout.Keys[key] = GL_FALSE;
+            Breakout.KeysProcessed[key] = GL_FALSE;
+        }
     }
 }
 
