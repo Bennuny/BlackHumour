@@ -23,7 +23,7 @@ ISoundEngine *SoundEngine = createIrrKlangDevice();
 const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px/s
 const GLfloat   BALL_RADIUS = 12.5f;
 
-const glm::vec2 INITIAL_BALL_VELOCITY(-100.0f, -350.0f);
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
@@ -238,7 +238,7 @@ void Game::DoCollision()
             GLfloat percentage = distance / (_pPaddle->GetWidth() / 2);
             
             GLfloat strength = 2.0f;
-            glm::vec2 oldVelocity = -_pBall->GetVelocity();
+            glm::vec2 oldVelocity = _pBall->GetVelocity();
             
             glm::vec2 vel(0.0f);
             vel.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
