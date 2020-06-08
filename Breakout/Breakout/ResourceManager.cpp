@@ -26,6 +26,8 @@ std::string ResourceManager::SHADER_PARTICLE = "PARTICLE";
 
 std::string ResourceManager::SHADER_POST_PROCESSING = "POST_PROCESSING";
 
+std::string ResourceManager::SHADER_TEXT_RENDER = "TEXT_RENDER";
+
 
 Shader ResourceManager::GetShader(std::string name)
 {
@@ -100,6 +102,10 @@ void ResourceManager::loadShader(std::string name)
     else if (name == SHADER_POST_PROCESSING) {
         Shader shader = loadShaderFromFile("Shader/post_processing.vert", "Shader/post_processing.frag");
         _shaders.insert(std::pair<std::string, Shader>(SHADER_POST_PROCESSING, shader));
+    }
+    else if (name == SHADER_TEXT_RENDER) {
+        Shader shader = loadShaderFromFile("Shader/text_render.vert", "Shader/text_render.frag");
+        _shaders.insert(std::pair<std::string, Shader>(SHADER_TEXT_RENDER, shader));
     }
 }
 

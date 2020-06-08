@@ -11,12 +11,19 @@
 #include "Shader.hpp"
 #include "ResourceManager.hpp"
 
+#include <irrKlang/irrKlang.h>
+using namespace irrklang;
+
+#include <sstream>
+
 #define SAFE_DELETE(p) if(p) { delete p; }
+
+ISoundEngine *SoundEngine = createIrrKlangDevice();
 
 const GLfloat   PADDLE_VELOCITY = 500.0f;   // 500px/s
 const GLfloat   BALL_RADIUS = 12.5f;
 
-const glm::vec2 INITIAL_BALL_VELOCITY(-100.0f, -350.0f);
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 
 Game::Game(GLuint width, GLuint height):
     _windowWidth(width),
@@ -31,6 +38,9 @@ Game::Game(GLuint width, GLuint height):
     _sprites.clear();
     
     _ShakeTime = 0.0f;
+    
+    _state = GAME_MENU;
+    _Lives = 3;
 }
 
 Game::~Game()
@@ -46,6 +56,8 @@ Game::~Game()
     
     SAFE_DELETE(_pPostProcessor);
     
+    SAFE_DELETE(_pTextRender);
+    
     for (GameLevel *pLevel : _vGameLevels) {
         delete pLevel;
     }
@@ -53,6 +65,8 @@ Game::~Game()
 
 void Game::Init()
 {
+    SoundEngine->play2D(ResourceManager::GetFullPath("Sound/breakout.ogg").c_str(), true);
+    
     glm::mat4 ortho = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), static_cast<GLfloat>(_windowHeight), 0.0f, -1.0f, 1.0f);
 //    glm::mat4 ortho = glm::ortho(0.0f, static_cast<GLfloat>(_windowWidth), 0.0f, static_cast<GLfloat>(_windowHeight), -1.0f, 1.0f);
 
@@ -66,9 +80,17 @@ void Game::Init()
     particleShader.SetMatrix4("projection", ortho);
     particleShader.SetInteger("image", 0);
     
+    Shader textShader = ResourceManager::GetShader(ResourceManager::SHADER_TEXT_RENDER);
+    textShader.Use();
+    textShader.SetMatrix4("projection", ortho);
+    textShader.SetInteger("image", 0);
+    
     Shader shaderPostprocess = ResourceManager::GetShader(ResourceManager::SHADER_POST_PROCESSING);
     
     _pPostProcessor = new PostProcessor(shaderPostprocess, _windowWidth, _windowHeight);
+    
+    _pTextRender = new TextRenderer(textShader, ortho);
+    _pTextRender->Load(ResourceManager::GetFullPath("Font/Arial Black.ttf"), 24);
 
     _pQuadRenderer = new Renderer(shader);
     _pParticleRenderer = new Renderer(particleShader);
@@ -115,6 +137,8 @@ void Game::ResetPlayer()
 void Game::ResetLevel()
 {
     _vGameLevels[_currentLevel]->Reset();
+    
+    _Lives = 3;
 }
 
 void Game::GameOver()
@@ -163,8 +187,12 @@ void Game::DoCollision()
             if (!brick.IsSolid()) {
                 brick.SetDestroyed(GL_TRUE);
                 SpawnPowerUps(brick);
+                
+                SoundEngine->play2D(ResourceManager::GetFullPath("Sound/bleep.wav").c_str());
             }
             else {
+                SoundEngine->play2D(ResourceManager::GetFullPath("Sound/solid.wav").c_str());
+                
                 _pPostProcessor->Shake = GL_TRUE;
                 _ShakeTime = 0.5f;
             }
@@ -203,12 +231,14 @@ void Game::DoCollision()
     if (!_pBall->IsStuck()) {
         Collision withPaddle = CheckCollisionAABBCycle(*_pBall, *_pPaddle);
         if (std::get<0>(withPaddle)) {
+            SoundEngine->play2D(ResourceManager::GetFullPath("Sound/bleep.wav").c_str());
+            
             GLfloat centerBoard = _pPaddle->GetPosition().x + _pPaddle->GetWidth() / 2;
             GLfloat distance = (_pBall->GetPosition().x + _pBall->GetRadius()) - centerBoard;
             GLfloat percentage = distance / (_pPaddle->GetWidth() / 2);
             
             GLfloat strength = 2.0f;
-            glm::vec2 oldVelocity = -_pBall->GetVelocity();
+            glm::vec2 oldVelocity = _pBall->GetVelocity();
             
             glm::vec2 vel(0.0f);
             vel.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
@@ -219,6 +249,7 @@ void Game::DoCollision()
             
             if (_pBall->isSticky()) {
                 _pBall->SetStuck(GL_TRUE);
+                _pBall->SetSticky(GL_FALSE);
             }
         }
     }
@@ -233,6 +264,8 @@ void Game::DoCollision()
 
                 powup.SetDestroyed(GL_TRUE);
                 powup.SetActiviated(GL_TRUE);
+                
+                SoundEngine->play2D(ResourceManager::GetFullPath("Sound/powerup.wav").c_str());
             }
         }
     }
@@ -322,6 +355,36 @@ void Game::ProcessInput(GLfloat dt)
             _pBall->SetStuck(GL_FALSE);
         }
     }
+    else if (_state == GAME_MENU) {
+        if (Keys[GLFW_KEY_ENTER] && !KeysProcessed[GLFW_KEY_ENTER]) {
+            _state = GAME_ACTIVE;
+            KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+        }
+        
+        if (Keys[GLFW_KEY_W] && !KeysProcessed[GLFW_KEY_W]) {
+            _currentLevel = (_currentLevel + 1) % 4;
+            KeysProcessed[GLFW_KEY_W] = GL_TRUE;
+            SetLevel(_currentLevel);
+        }
+        
+        if (Keys[GLFW_KEY_S] && !KeysProcessed[GLFW_KEY_S]) {
+            KeysProcessed[GLFW_KEY_S] = GL_TRUE;
+            if (_currentLevel > 0) {
+                --_currentLevel;
+            }
+            else {
+                _currentLevel = 3;
+            }
+            SetLevel(_currentLevel);
+        }
+    }
+    else if (_state == GAME_WIN) {
+        if (Keys[GLFW_KEY_ENTER] && !KeysProcessed[GLFW_KEY_ENTER]) {
+            KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+            _pPostProcessor->Chaos = GL_FALSE;
+            _state = GAME_MENU;
+        }
+    }
 }
 
 void Game::Update(GLfloat dt)
@@ -331,8 +394,16 @@ void Game::Update(GLfloat dt)
     _pParticleManager->Update(dt, _pBall, 2, glm::vec2(_pBall->GetRadius() / 2));
     
     if (_pBall->GetPosition().y >= _windowHeight) {
-        GameOver();
-        return;
+//        GameOver();
+//        return;
+        
+        --_Lives;
+        if (_Lives == 0) {
+            GameOver();
+            _state = GAME_MENU;
+        }
+        ResetPlayer();
+        ResetBall();
     }
     
     DoCollision();
@@ -345,12 +416,18 @@ void Game::Update(GLfloat dt)
     }
     
     UpdatePowerUps(dt);
+    
+    if (_state == GAME_ACTIVE && _vGameLevels[_currentLevel]->IsCompleted()) {
+        GameOver();
+        _pPostProcessor->Chaos = GL_TRUE;
+        _state = GAME_WIN;
+    }
 }
 
 void Game::Render()
 {
     _pPostProcessor->BeginRender();
-    if (_state == GAME_ACTIVE) {
+    if (_state == GAME_ACTIVE || _state == GAME_MENU) {
         for (Sprite2D* sprite : _sprites) {
             sprite->Draw();
         }
@@ -358,6 +435,20 @@ void Game::Render()
         for (GameObject &powerUP : _powerUPs) {
             powerUP.Draw();
         }
+        
+        std::stringstream ss;
+        ss << _Lives;
+        _pTextRender->RenderText("Lives: " + ss.str(), 5.0f, 5.0f, 1.0f);
+    }
+    
+    if (_state == GAME_MENU) {
+        _pTextRender->RenderText("Press ENTER to start", 250.0f, _windowHeight/2, 1.0f);
+        _pTextRender->RenderText("Press W or S to select level", 245.0f, _windowHeight/2 + 20.0f, 0.75f);
+    }
+    
+    if (_state == GAME_WIN) {
+        _pTextRender->RenderText("You WON!!", 320.0f, _windowHeight/2 - 20.0, 1.0, glm::vec3(0.0f, 1.0f, 0.0f));
+        _pTextRender->RenderText("Press ENTER to retry or ESC to quit", 130.0f, _windowHeight/2, 1.0, glm::vec3(1.0f, 1.0f, 1.0));
     }
 
     _pPostProcessor->EndRender();

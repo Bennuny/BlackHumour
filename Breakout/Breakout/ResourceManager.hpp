@@ -27,6 +27,8 @@ public:
     
     static std::string SHADER_POST_PROCESSING;
     
+    static std::string SHADER_TEXT_RENDER;
+    
 public:
     static Shader GetShader(std::string name);
     

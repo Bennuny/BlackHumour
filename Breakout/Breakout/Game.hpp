@@ -22,6 +22,8 @@
 
 #include "PowerUp.hpp"
 
+#include "TextRenderer.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -68,6 +70,9 @@ public:
     }
 
     GLboolean       Keys[1024];
+    GLboolean       KeysProcessed[1024];
+
+    GLuint          _Lives;
 
 private:
     Sprite2D* CreateSprite(std::string file);
@@ -126,6 +131,8 @@ private:
     GLfloat                     _ShakeTime;
     
     std::vector<PowerUp>        _powerUPs;
+
+    TextRenderer                *_pTextRender;
 };
 
 
